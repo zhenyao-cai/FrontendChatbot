@@ -1,0 +1,222 @@
+#reset-this-root {
+    all: unset;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    color: #383838;
+    font-size: 25px;
+    font-weight: 600;
+    padding: 25px;
+    padding-left: 40px;
+    padding-right: 50px;
+}
+
+.side-bar {
+    width: 20%;
+    min-width: 250px;
+}
+
+.body-container {
+    padding-right: 50px;
+    width: 100%;
+    padding-top: 12px;
+}
+
+.chatroom-box {
+    display: flex;
+    height: 48px;
+    background-color: #efefef;
+    color: #527785;
+    border-radius: 15px;
+    align-items: center;
+    margin-right: 10px;
+    margin-left: 10px;
+    justify-content: center;
+}
+
+.chatroom-img {
+    width: 30px;
+    height: 30px;
+    background-image: url('/public/chatroom.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.chatroom-word {
+    margin-left: 8px;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.settings-box {
+    display: flex;
+    margin-left: 20%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.settings-img {
+    width: 30px;
+    height: 30px;
+    background-image: url('/public/settings.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.settings-word {
+    margin-left: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #383838;
+}
+
+.export-box {
+    display: flex;
+    margin-left: 20%;
+    margin-top: 20px;
+    position: relative;
+}
+
+.export-img {
+    width: 30px;
+    height: 30px;
+    background-image: url('/public/export.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.export-word {
+    margin-left: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #383838;
+    cursor: pointer;
+}
+
+.export-popup {
+    position: absolute;
+    top: calc(60% + 30px);
+    background-color: #fff;
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 1px;
+    text-align: center;
+}
+
+.export-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #5A2C00;
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.exit-position {
+    position: relative;
+    top: 360px;
+    left: 23px;
+}
+
+.exit-button {
+    background-color: #f3f3f3;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: #527785;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.chat-header {
+    background-color: #ECE7E0;
+    color: #6E553D;
+    border-radius: 20px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    padding: 20px;
+    font-size: 18px;
+}
+
+.message-position {
+    display: flex;
+    align-items: center;
+}
+
+.message-picture {
+    width: 56px;
+    height: 56px;
+    background-color: #B2B2B2;
+    border-radius: 50px;
+    margin-right: 0px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.message-user {
+    font-size: 17px;
+    color: #5C5C5C;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.message-text {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.message-line {
+    border-top: 2px solid #D9D9D9;
+    border-left: none;
+}
+
+.message-input {
+    height: 56px;
+    width: 100%;
+    overflow: hidden;
+    background: #F3F3F3;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 22px;
+    padding: 5px;
+    padding-left: 25px;
+}
+
+.message-button {
+    background-color: #F3F3F3;
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    color: #5A2C00;
+    overflow: hidden;
+}
+
+.chatbox-container {
+    background-color: #fcfbfb;
+    height: 550px;
+    min-width: 550px;
+    border-radius: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    overflow-y: auto;
+}

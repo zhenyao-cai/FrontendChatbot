@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7",
+    "@types/firebase": "^3.2.1"
+  },
+  "dependencies": {
+    "file-saver": "^2.0.5",
+    "firebase": "^10.7.1",
+    "firebase-admin": "^12.0.0"
+  }
+}

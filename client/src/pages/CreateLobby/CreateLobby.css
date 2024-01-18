@@ -1,0 +1,76 @@
+#reset-this-root {
+  all: unset;
+}
+
+.main-header {
+  text-align: center;
+  justify-self: center;
+}
+
+* {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+}
+
+.box-container {
+  background-color: #f3f3f3;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.member-container {
+  width: 418px;
+  height: 239px;
+  background-color: #F0F0F0;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.circle {
+  width: 49px;
+  height: 49px;
+  background-color: #B2B2B2;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.joinheader {
+  font-size: 30px;
+  margin: 10px;
+  margin-top: 100px; /* Adjusted to move the header higher up */
+  margin-left: 100px;
+  color: #527785;
+  font-weight: 800;
+}
+
+.logo-container {
+  position: absolute;
+  top: 30px;
+  left: 30px; /* Adjusted to the top left corner */
+}
+
+.top-right-buttoon {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background-color: #f3f3f3;
+  font-weight: 800;
+  color: #527785;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 51;
+  width: 208;
+}
+
+button.top-right-button:hover {
+  background-color: #d3d3d3;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+}

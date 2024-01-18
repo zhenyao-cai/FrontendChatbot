@@ -1,0 +1,140 @@
+.Home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .logohome {
+    max-width: 200px;
+    margin-top: 80px;
+    margin-bottom: 30px;
+  }
+  
+  .welcome {
+    font-size: 2rem; /* Blue color */
+    color: #527785;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: bounce 2s infinite;
+    margin-bottom: 50px;
+    margin-top: 50px;
+  }
+  
+  .centerhome {
+    text-align: center;
+    border: 2px solid white; /* Add a border with the blue color */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
+    padding: 30px; /* Add some padding inside the border */
+    border-radius: 20px; /* Add rounded corners */
+    width: 80%; /* Set the desired width, e.g., 80% of the parent container */
+    max-width: 500px;
+    margin: 25px;
+    height: 400px; /* Adjust the height to your desired value */
+  }
+  
+  .centerhome button {
+    width: 70%; /* Set the width to 100% to match Create Room button */
+    margin: 10px 0;
+  }
+  
+  button.button {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 15px;
+    margin: 15px;
+    color: #527785;
+    background-color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid #527785; /* Add a border with the blue color */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
+  }
+  
+  button.button:hover {
+    background-color: #ededed;
+  }
+
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 999; /* Ensure the overlay is behind the popup but above the rest of the content */
+    backdrop-filter: blur(5px); /* Apply a blur effect to the overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .popup {
+    position: fixed; /* Change to fixed positioning */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    text-align: center;
+    max-width: 300px;
+    width: 90%;
+    color: #333;
+  }
+  
+  .popup h2 {
+    margin-bottom: 20px;
+    color: #527785;
+  }
+  
+  .popup label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .popup input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .popup button {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 8px;
+    margin-top: 10px;
+    color: #fff;
+    background-color: #527785;
+    border: none;
+    border-radius: 8px;
+    width: 80px;
+    cursor: pointer;
+  }
+  
+  .popup button:hover {
+    background-color: #426772;
+  }
+  
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+  
