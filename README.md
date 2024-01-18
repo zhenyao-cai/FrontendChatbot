@@ -1,1 +1,1 @@
-# DemoEduChatbot
+# Frontend of the EduChatbot
