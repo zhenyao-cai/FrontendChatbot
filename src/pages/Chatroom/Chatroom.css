@@ -14,8 +14,8 @@
 }
 
 .side-bar {
-    width: 20%;
-    min-width: 250px;
+    width: 35%;
+    min-width: 300px;
 }
 
 .body-container {
@@ -214,9 +214,33 @@
 .chatbox-container {
     background-color: #fcfbfb;
     height: 550px;
-    min-width: 550px;
+    min-width: 500px;
     border-radius: 20px;
     padding-right: 20px;
     padding-left: 20px;
     overflow-y: auto;
 }
+
+
+/******* TIMER ********/
+.side-container {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+
+    border: 2px solid #F9F8F7; 
+    border-radius: 8px; 
+    padding: 20px;
+    margin-bottom: 20px;
+    color: black;
+    background-color: #F9F8F7;
+}
+
+.sider-heading{
+    margin: 0; 
+    font-size: 20px; 
+    color: #527785; 
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+  

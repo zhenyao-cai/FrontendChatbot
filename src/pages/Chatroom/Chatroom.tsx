@@ -63,10 +63,10 @@ export function Chatroom(props: ChatroomProps) {
 
   return (
     <div style={{
-      backgroundColor: 'white'
+      backgroundColor: '#EEEDEA'
     }}>
       <div className='page-header'>
-        <p>{'Menu'}</p>
+        <p>{'EduChatbot'}</p>
         <p>{'Chatroom: ' + code}</p>
       </div>
       <div style={{ display: 'flex' }}>
@@ -78,10 +78,11 @@ export function Chatroom(props: ChatroomProps) {
             messages={masterMessages}
             setDisabled={setDisabled}
             inactivity={inactivity}
-            setInactivity={setInactivity}/>
+            setInactivity={setInactivity}
+            chatName={chatName}
+            chatTopic={chatTopic}/>
         </div>
         <div className='body-container'>
-          <ChatHeader chatname={chatName} topic={chatTopic} />
           <ChatBox 
             socket={props.socket} 
             code={code} 
@@ -104,15 +105,21 @@ interface SideBarProps {
   setDisabled : StateSetter<boolean>;
   inactivity : string;
   setInactivity : StateSetter<string>;
+  chatName: string;
+  chatTopic: string;
 }
 
 function SideBar(props : SideBarProps) {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [time, setTime] = useState(props.time);
+  const [chatName, setChatName] = useState(props.chatName);
+  const [chatTopic, setChatTopic] = useState(props.chatTopic);
 
   useEffect(() => {
     setTime(props.time);
-  }, [props.time]);
+    setChatName(props.chatName);
+    setChatTopic(props.chatTopic);
+  }, [props.time, props.chatName, props.chatTopic]);
 
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
@@ -149,15 +156,21 @@ function SideBar(props : SideBarProps) {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <div className='chatroom-box'>
+    <div style={{ paddingLeft: 20, paddingRight:20 }}>
+      
+      {/* <div className='chatroom-box'>
         <div className='chatroom-img' />
         <p className='chatroom-word'>Chatroom</p>
-      </div>
-
-      <div className='settings-box'>
-        <div className='settings-img' />
-        <p className='settings-word'>Settings</p>
+      </div> */}
+      <div style={{ marginTop: '20px' }}>
+      <ChatHeader chatname={chatName} topic={chatTopic}/>
+        <Timer 
+          time={time} 
+          socket={props.socket} 
+          code={props.code} 
+          setDisabled={props.setDisabled}
+          inactivity={props.inactivity}
+          setInactivity={props.setInactivity}/>
       </div>
 
       <div className='export-box'>
@@ -177,20 +190,10 @@ function SideBar(props : SideBarProps) {
           </button>
         </div>
       </div>
-
-      <div style={{ marginTop: '20px' }}>
-        <Timer 
-          time={time} 
-          socket={props.socket} 
-          code={props.code} 
-          setDisabled={props.setDisabled}
-          inactivity={props.inactivity}
-          setInactivity={props.setInactivity}/>
-      </div>
-
+{/* 
       <div className='exit-position'>
         <button className='exit-button' onClick={handleChatroomLeave}>Quit Chatroom</button>
-      </div>
+      </div> */}
     </div>
   )
 }
@@ -202,9 +205,10 @@ interface ChatHeaderProps {
 
 function ChatHeader(props: ChatHeaderProps) {
   return (
-    <div className='chat-header'>
-      <p>{props.chatname}</p>
-      <p>{'Topic: ' + props.topic}</p>
+    <div className='side-container'>
+      <p className='sider-heading'>Collaborative Task</p>
+      <p>Please discuss the following question</p>
+      <p>{props.topic}</p>
     </div>
   );
 }
@@ -483,21 +487,9 @@ function Timer(props : TimerProps) {
   };
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column',
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      marginLeft: '25px',
-      marginRight: '25px',
-      border: '2px solid #efefef', 
-      borderRadius: '8px', 
-      padding: '8px',
-      color: 'black',
-      backgroundColor: '#efefef',
-    }}>
-      <p style={{ margin: 0, fontSize: '20px', color: '#527785', fontWeight: 'bold' }}>
-        Timer
+    <div className='side-container'>
+      <p className='sider-heading'>
+        Task Completion
       </p>
       <p style={{ margin: '8px 0'}}>
         {formatTime(seconds)}
