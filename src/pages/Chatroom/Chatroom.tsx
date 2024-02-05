@@ -4,6 +4,10 @@ import './Chatroom.css'
 import { Socket } from 'socket.io-client';
 import { saveAs } from 'file-saver'; // npm install file-saver
 
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { MdArrowRightAlt } from "react-icons/md";
+
 type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 interface ChatroomItems {
   time: number;
@@ -488,12 +492,32 @@ function Timer(props : TimerProps) {
 
   return (
     <div className='side-container'>
+
       <p className='sider-heading'>
         Task Completion
       </p>
+
       <p style={{ margin: '8px 0'}}>
         {formatTime(seconds)}
       </p>
+
+      <p style={{ fontSize: '50px' , color:"#527785"}}>
+        <IoIosCheckmarkCircle />
+        <MdArrowRightAlt />
+        <IoIosCheckmarkCircleOutline />
+        <MdArrowRightAlt />
+        <IoIosCheckmarkCircleOutline />
+      </p>
+
+      <p style={{ fontSize: '12px' , color:"#527785"}}>
+        Orientation &nbsp; &nbsp; &nbsp; 
+        Share Opinions &nbsp; &nbsp; &nbsp;
+        Conclude
+      </p>
+
+
+
+
     </div>
   );
 }
