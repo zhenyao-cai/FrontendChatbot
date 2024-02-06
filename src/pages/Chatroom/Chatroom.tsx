@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver'; // npm install file-saver
 
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { MdArrowRightAlt } from "react-icons/md";
+import { HiArrowLongRight } from "react-icons/hi2";
 
 type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 interface ChatroomItems {
@@ -414,8 +414,8 @@ const formatTimestamp = (timestamp: number) => {
   return date.toLocaleString('en-US', options);
 };
 
-interface TimerProps {
-  time : number;
+interface TimerProps { // interface for timer
+  time : number;  // time unit: minute
   socket : Socket;
   code : String;
   setDisabled : StateSetter<boolean>;
@@ -490,6 +490,27 @@ function Timer(props : TimerProps) {
     );
   };
 
+  const checkMark = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    let check1 = <IoIosCheckmarkCircle />;
+    let check2 = <IoIosCheckmarkCircleOutline style={minutes < 5 ? { opacity: 1 } : { opacity : 0.5 }}/>
+    let check3 = <IoIosCheckmarkCircleOutline style={minutes < 2 ? { opacity: 1 } : { opacity : 0.5 }}/>
+    let arrow1 = <HiArrowLongRight style={minutes < 5 ? { opacity: 1 } : { opacity : 0.5 }}/>
+    let arrow2 = <HiArrowLongRight style={minutes < 2 ? { opacity: 1 } : { opacity : 0.5 }}/>
+    
+    if (minutes < 5) {check2 = <IoIosCheckmarkCircle />;}
+    if (minutes < 2) {check3 = <IoIosCheckmarkCircle />;}
+
+    return(
+      <div>        
+        {check1}
+        {arrow1}
+        {check2}
+        {arrow2}
+        {check3}
+      </div>);
+  };
+
   return (
     <div className='side-container'>
 
@@ -502,11 +523,7 @@ function Timer(props : TimerProps) {
       </p>
 
       <p style={{ fontSize: '50px' , color:"#527785"}}>
-        <IoIosCheckmarkCircle />
-        <MdArrowRightAlt />
-        <IoIosCheckmarkCircleOutline />
-        <MdArrowRightAlt />
-        <IoIosCheckmarkCircleOutline />
+        {checkMark(seconds)}
       </p>
 
       <p style={{ fontSize: '12px' , color:"#527785"}}>
@@ -514,9 +531,6 @@ function Timer(props : TimerProps) {
         Share Opinions &nbsp; &nbsp; &nbsp;
         Conclude
       </p>
-
-
-
 
     </div>
   );
