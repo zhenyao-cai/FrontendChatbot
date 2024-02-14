@@ -214,7 +214,7 @@
 .chatbox-container {
     background-color: #fcfbfb;
     height: 550px;
-    min-width: 500px;
+    min-width: 50px;
     border-radius: 20px;
     padding-right: 20px;
     padding-left: 20px;
@@ -242,5 +242,13 @@
     color: #527785; 
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+.sider-subheading{
+    margin: 0; 
+    font-size: 15px; 
+    color: #527785; 
+    font-weight: bold;
+    margin-bottom: 5px;
 }
   

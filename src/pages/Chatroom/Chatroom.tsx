@@ -28,10 +28,12 @@ export function Chatroom(props: ChatroomProps) {
   const [disabled, setDisabled] = useState(false);
   const [inactivity, setInactivity] = useState('pending');
 
+  const [score, setScore] = useState(100);  // participation score
+
   useEffect(() => {
     // Retrieve the name parameter from the URL
     const searchParams = new URLSearchParams(window.location.search);
-    const idFromURL = searchParams.get('id') || '....';
+    const idFromURL = searchParams.get('id') || '....'; // default id: '....'
     const nameFromURL = searchParams.get('name');
 
     if (nameFromURL !== null) {
@@ -69,13 +71,17 @@ export function Chatroom(props: ChatroomProps) {
     <div style={{
       backgroundColor: '#EEEDEA'
     }}>
+      
       <div className='page-header'>
         <p>{'EduChatbot'}</p>
         <p>{'Chatroom: ' + code}</p>
       </div>
+
       <div style={{ display: 'flex' }}>
+
+      {/* left side bar, display time and stage */}
         <div className='side-bar'>
-          <SideBar 
+          <SideBar
             time={chatTime} 
             socket={props.socket} 
             code={code} name={name} 
@@ -86,6 +92,7 @@ export function Chatroom(props: ChatroomProps) {
             chatName={chatName}
             chatTopic={chatTopic}/>
         </div>
+
         <div className='body-container'>
           <ChatBox 
             socket={props.socket} 
@@ -95,6 +102,30 @@ export function Chatroom(props: ChatroomProps) {
             inactivity={inactivity}
             setInactivity={setInactivity}/>
         </div>
+
+        {/* right side bar, display participation score and visualization */}
+        <div className='side-bar'>
+        
+        <div className='side-container'>
+        <p className='sider-heading'>Group analysis</p>
+          
+          {/* <p className='sider-heading'>Knowledge Bubble</p>
+          <p className='sider-heading'>....</p> */}
+          <p className='sider-subheading'>Your Participation Score:</p>
+          <p className='sider-heading'>{score}</p>
+        </div>
+
+        <div className='side-container'>
+          <p className='sider-heading'>Your performance</p>
+          {/* <p className='sider-heading'>Cognitive engagement</p>
+          <p className='sider-heading'>Cognitive and social behaviors</p>
+          <p className='sider-heading'>Lexical features</p> */}
+
+        </div>
+
+
+        </div>
+
       </div>
     </div>
   );
@@ -136,11 +167,13 @@ function SideBar(props : SideBarProps) {
       props.messages.map((message: any, index, array) => {
           const user = message.props.user;
           const text = message.props.message;
+
           if (message.props.timestamp == '' && index > 0)
             t = array[index - 1].props.timestamp || '';
           else 
             t = message.props.timestamp || '';
           const timestamp = t;
+
           return `"${user}","${text}","${timestamp}"`;
         })
         .join('\n');
@@ -166,8 +199,9 @@ function SideBar(props : SideBarProps) {
         <div className='chatroom-img' />
         <p className='chatroom-word'>Chatroom</p>
       </div> */}
+
       <div style={{ marginTop: '20px' }}>
-      <ChatHeader chatname={chatName} topic={chatTopic}/>
+        <ChatHeader chatname={chatName} topic={chatTopic}/>
         <Timer 
           time={time} 
           socket={props.socket} 
@@ -179,7 +213,9 @@ function SideBar(props : SideBarProps) {
 
       <div className='export-box'>
         <div className='export-img' />
-        <p className='export-word' onClick={togglePopup}>Export</p>
+        <p className='export-word' onClick={togglePopup}>
+          Export
+        </p>
 
         {/* Popup menu */}
         <div
@@ -192,9 +228,10 @@ function SideBar(props : SideBarProps) {
           <button className='export-button' onClick={handleExport}>
             Export
           </button>
+
         </div>
       </div>
-{/* 
+      {/* 
       <div className='exit-position'>
         <button className='exit-button' onClick={handleChatroomLeave}>Quit Chatroom</button>
       </div> */}
@@ -207,11 +244,12 @@ interface ChatHeaderProps {
   topic: string
 }
 
+// top left box
 function ChatHeader(props: ChatHeaderProps) {
   return (
     <div className='side-container'>
       <p className='sider-heading'>Collaborative Task</p>
-      <p>Please discuss the following question</p>
+      <p className='sider-subheading'>Please discuss the following question</p>
       <p>{props.topic}</p>
     </div>
   );
@@ -522,11 +560,11 @@ function Timer(props : TimerProps) {
         {formatTime(seconds)}
       </p>
 
-      <p style={{ fontSize: '50px' , color:"#527785"}}>
+      <p style={{ fontSize: '42px' , color:"#527785"}}>
         {checkMark(seconds)}
       </p>
 
-      <p style={{ fontSize: '12px' , color:"#527785"}}>
+      <p style={{ fontSize: '10px' , color:"#527785"}}>
         Orientation &nbsp; &nbsp; &nbsp; 
         Share Opinions &nbsp; &nbsp; &nbsp;
         Conclude
@@ -535,3 +573,13 @@ function Timer(props : TimerProps) {
     </div>
   );
 }
+
+// top right box
+// function ParticipationScore() {
+//   return (
+//     <div className='side-container'>
+//       <p className='sider-heading'>Your Participation Score</p>
+//       <p>100</p>
+//     </div>
+//   );
+// }
