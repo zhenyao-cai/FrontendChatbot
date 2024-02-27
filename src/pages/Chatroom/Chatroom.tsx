@@ -29,7 +29,7 @@ export function Chatroom(props: ChatroomProps) {
   const [disabled, setDisabled] = useState(false);
   const [inactivity, setInactivity] = useState('pending');
 
-  const [score, setScore] = useState(100);  // participation score
+  const [score, setScore] = useState(10);  // participation score
 
   useEffect(() => {
     // Retrieve the name parameter from the URL
@@ -80,7 +80,7 @@ export function Chatroom(props: ChatroomProps) {
 
       <div style={{ display: 'flex' }}>
 
-      {/* left side bar, display time and stage */}
+        {/* left side bar, display time and stage */}
         <div className='side-bar'>
           <SideBar
             time={chatTime} 
@@ -106,26 +106,9 @@ export function Chatroom(props: ChatroomProps) {
 
         {/* right side bar, display participation score and visualization */}
         <div className='side-bar'>
-        
-          <div className='side-container'>
-            <p className='sider-heading'>Group analysis</p>
-            {/* <p className='sider-heading'>Knowledge Bubble</p>
-            <p className='sider-heading'>....</p> */}
-            <p className='sider-subheading'>Your Participation Score:</p>
-            <p className='sider-heading'>{score}</p>
-          </div>
-
-          <div className='side-container'>
-            <p className='sider-heading'>Your performance</p>
-            <p > <RChart/> </p>
-            {/* <p className='sider-heading'>Cognitive engagement</p>
-            <p className='sider-heading'>Cognitive and social behaviors</p>
-            <p className='sider-heading'>Lexical features</p> */}
-          </div>
-
-
+          <RightSideBar score={score}/>
         </div>
-
+        
       </div>
     </div>
   );
@@ -238,6 +221,28 @@ function SideBar(props : SideBarProps) {
     </div>
   )
 }
+
+interface RightSideBarProps {
+  score: number;
+}
+
+function RightSideBar(props: RightSideBarProps) {
+  return (
+  <div style={{ paddingLeft: 20, paddingRight:20 }}>
+    <div style={{ marginTop: '20px' }}>
+
+        <ParticipationScore score={props.score}/>
+
+        <div className='side-container'>
+          <p className='sider-heading'>Your performance</p>
+          <p><RChart/></p>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 
 interface ChatHeaderProps {
   chatname: string,
@@ -552,19 +557,10 @@ function Timer(props : TimerProps) {
   return (
     <div className='side-container'>
 
-      <p className='sider-heading'>
-        Task Completion
-      </p>
-
-      <p style={{ margin: '8px 0'}}>
-        {formatTime(seconds)}
-      </p>
-
-      <p style={{ fontSize: '42px' , color:"#527785"}}>
-        {checkMark(seconds)}
-      </p>
-
-      <p style={{ fontSize: '10px' , color:"#527785"}}>
+      <p className='sider-heading'>Task Completion</p>
+      <p style={{ margin: '8px 0'}}>{formatTime(seconds)}</p>
+      <p style={{ fontSize: '42px', color:"#527785"}}>{checkMark(seconds)}</p>
+      <p style={{ fontSize: '10px', color:"#527785"}}>
         Orientation &nbsp; &nbsp; &nbsp; 
         Share Opinions &nbsp; &nbsp; &nbsp;
         Conclude
@@ -574,62 +570,45 @@ function Timer(props : TimerProps) {
   );
 }
 
-// top right box
-// function ParticipationScore() {
-//   return (
-//     <div className='side-container'>
-//       <p className='sider-heading'>Your Participation Score</p>
-//       <p>100</p>
-//     </div>
-//   );
-// }
-
-
 const RChart = () => {
-const data = [
-  {
-    subject: 'A',
-    A: 70,
-    B: 10,
-    fullMark: 100,
-  },
-  {
-    subject: 'B',
-    A: 98,
-    B: 100,
-    fullMark: 100,
-  },
-  {
-    subject: 'C',
-    A: 86,
-    B: 30,
-    fullMark: 100,
-  },
-  {
-    subject: 'D',
-    A: 80,
-    B: 100,
-    fullMark: 100,
-  },
-  {
-    subject: 'E',
-    A: 85,
-    B: 90,
-    fullMark: 100,
-  },
-  {
-    subject: 'F',
-    A: 65,
-    B: 85,
-    fullMark: 100,
-  },
-];
+  const data = [
+    {
+      subject: 'A',
+      A: 7,
+      B: 1,
+    },
+    {
+      subject: 'B',
+      A: 9,
+      B: 1,
+    },
+    {
+      subject: 'C',
+      A: 8,
+      B: 0,
+    },
+    {
+      subject: 'D',
+      A: 8,
+      B: 1,
+    },
+    {
+      subject: 'E',
+      A: 8,
+      B: 9,
+    },
+    {
+      subject: 'F',
+      A: 6,
+      B: 8,
+    },
+  ];
 
   return (
-      <RadarChart cx={100} cy={100} outerRadius={50} width={200} height={500} data={data}>
+      <RadarChart cx={100} cy={100} outerRadius={50} width={200} height={200} data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="subject" />
-        <PolarRadiusAxis angle={30} domain={[0, 100]} />
+        <PolarRadiusAxis angle={30} domain={[0, 10]} />
         <Radar dataKey="A" 
                stroke="#8884d8" 
                fill="#8884d8" 
@@ -638,4 +617,13 @@ const data = [
   );
 }
 
+function ParticipationScore(props : RightSideBarProps){
+  return (
+    <div className='side-container'>
+      <p className='sider-heading'>Group analysis</p>
+      <p className='sider-subheading'>Your Participation Score:</p>
+      <p className='sider-heading'>{props.score}</p>
+    </div>
+  );
+}
 
