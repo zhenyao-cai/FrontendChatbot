@@ -65,7 +65,7 @@ export function CreateLobby(props: CreateLobbyProps) {
 
     if (lobbyId !== '. . . .') {
       const encodedId = encodeURIComponent(lobbyId);
-      window.location.href = `chatroom?name=${name}&id=${encodedId}`;
+      window.location.href = `chatroom?name=${name}&id=${encodedId}`; // jump to chatroom page
     }
   };
 
@@ -101,14 +101,15 @@ export function CreateLobby(props: CreateLobbyProps) {
         <img src="logo.jpg" alt="Logo" className="logo" />
       </div>
 
-      <button onClick={handleChatroomStart} className="top-right-buttoon">Start Chat</button>
+      <button onClick={handleChatroomStart} className="top-right-buttoon">
+        Start Chat
+      </button>
 
       <div className={'main-header'}>
-        <p style={{ fontSize: 25, color: '#527785', marginTop: 20 }}>Join Code</p>
-        <div
-          className={'box-container'}
-          style={{ marginTop: 12, width: 285, height: 78, margin: 'auto' }}
-        >
+        <p style={{ fontSize: 25, color: '#527785', marginTop: 20 }}>
+          Join Code
+        </p>
+        <div className={'box-container'} style={{ marginTop: 12, width: 285, height: 78, margin: 'auto' }}>
           <p style={{ fontSize: 36, color: '#383838' }}>{lobbyId}</p>
         </div>
       </div>

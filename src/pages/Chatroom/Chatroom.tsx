@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver'; // npm install file-saver
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { HiArrowLongRight } from "react-icons/hi2";
+import { Radar, RadarChart, PolarGrid, Legend, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 
 type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 interface ChatroomItems {
@@ -106,22 +107,21 @@ export function Chatroom(props: ChatroomProps) {
         {/* right side bar, display participation score and visualization */}
         <div className='side-bar'>
         
-        <div className='side-container'>
-        <p className='sider-heading'>Group analysis</p>
-          
-          {/* <p className='sider-heading'>Knowledge Bubble</p>
-          <p className='sider-heading'>....</p> */}
-          <p className='sider-subheading'>Your Participation Score:</p>
-          <p className='sider-heading'>{score}</p>
-        </div>
+          <div className='side-container'>
+            <p className='sider-heading'>Group analysis</p>
+            {/* <p className='sider-heading'>Knowledge Bubble</p>
+            <p className='sider-heading'>....</p> */}
+            <p className='sider-subheading'>Your Participation Score:</p>
+            <p className='sider-heading'>{score}</p>
+          </div>
 
-        <div className='side-container'>
-          <p className='sider-heading'>Your performance</p>
-          {/* <p className='sider-heading'>Cognitive engagement</p>
-          <p className='sider-heading'>Cognitive and social behaviors</p>
-          <p className='sider-heading'>Lexical features</p> */}
-
-        </div>
+          <div className='side-container'>
+            <p className='sider-heading'>Your performance</p>
+            <p > <RChart/> </p>
+            {/* <p className='sider-heading'>Cognitive engagement</p>
+            <p className='sider-heading'>Cognitive and social behaviors</p>
+            <p className='sider-heading'>Lexical features</p> */}
+          </div>
 
 
         </div>
@@ -583,3 +583,59 @@ function Timer(props : TimerProps) {
 //     </div>
 //   );
 // }
+
+
+const RChart = () => {
+const data = [
+  {
+    subject: 'A',
+    A: 70,
+    B: 10,
+    fullMark: 100,
+  },
+  {
+    subject: 'B',
+    A: 98,
+    B: 100,
+    fullMark: 100,
+  },
+  {
+    subject: 'C',
+    A: 86,
+    B: 30,
+    fullMark: 100,
+  },
+  {
+    subject: 'D',
+    A: 80,
+    B: 100,
+    fullMark: 100,
+  },
+  {
+    subject: 'E',
+    A: 85,
+    B: 90,
+    fullMark: 100,
+  },
+  {
+    subject: 'F',
+    A: 65,
+    B: 85,
+    fullMark: 100,
+  },
+];
+
+  return (
+      <RadarChart cx={100} cy={100} outerRadius={50} width={200} height={500} data={data}>
+        <PolarGrid />
+        <PolarAngleAxis dataKey="subject" />
+        <PolarRadiusAxis angle={30} domain={[0, 100]} />
+        <Radar dataKey="A" 
+               stroke="#8884d8" 
+               fill="#8884d8" 
+               fillOpacity={0.5} />
+      </RadarChart>
+  );
+}
+
+

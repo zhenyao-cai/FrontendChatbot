@@ -1,7 +1,8 @@
 import './Home.css';
 import React, { useState } from 'react';
 
-export function Home() {
+// Home page path="/home"
+export function Home() {  
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [name, setName] = useState('');
   const [actionType, setActionType] = useState<'join' | 'create' | undefined>();
@@ -17,13 +18,13 @@ export function Home() {
 
   const handleLinkClick = () => {
     const encodedName = encodeURIComponent(name);
-    window.location.href = `joinlobby?name=${encodedName}`;
+    window.location.href = `joinlobby?name=${encodedName}`; // jump to joinlobby page
   };
 
   const handleCreateRoomClick = () => {
     closePopup();
     const encodedName = encodeURIComponent(name);
-    window.location.href = `createlobby?name=${encodedName}`;
+    window.location.href = `createlobby?name=${encodedName}`; // jump to createlobby page
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,17 +48,25 @@ export function Home() {
         <img src="logo.jpg" alt="Your Logo" className="logohome" />
       </header>
       <main className="centerhome">
-        <h1 className="welcome">Welcome to ChatBot!</h1>
+        <h1 className="welcome">
+          Welcome to ChatBot!
+        </h1>
 
-          <button className="button" onClick={() => openPopup('join')}>Join Chatroom</button>
+          <button className="button" onClick={() => openPopup('join')}>
+            Join Chatroom
+          </button>
 
-          <button className="button" onClick={() => openPopup('create')}>Create Chatroom</button>
+          <button className="button" onClick={() => openPopup('create')}>
+            Create Chatroom
+          </button>
 
         {isPopupOpen && (
         <div>
           <div className="popup-overlay"></div>
           <div className="popup">
+
             <h2>Name</h2>
+
             <input
               type="text"
               value={name}
@@ -65,9 +74,11 @@ export function Home() {
               onKeyPress={handleNameKeyPress}
               placeholder="Enter your name"
             />
+
             <button onClick={actionType === 'create' ? handleCreateRoomClick : handleLinkClick}>
               Submit
             </button>
+            
           </div>
         </div>
         )}
