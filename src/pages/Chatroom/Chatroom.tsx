@@ -2,7 +2,9 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import './Chatroom.css'
 import { Socket } from 'socket.io-client';
-import { saveAs } from 'file-saver'; // npm install file-saver
+
+//import modules
+import SideBar from './SideBar';
 
 type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 interface ChatroomItems {
@@ -32,13 +34,11 @@ export function Chatroom(props: ChatroomProps) {
 
     if (nameFromURL !== null) {
       const decodedName = decodeURIComponent(nameFromURL);
-      // Now decodedName is guaranteed to be a string
       setName(decodedName);
     };
 
     // Set the name
     setCode(() => idFromURL);
-
   }, [setCode]);
 
   useEffect(() => {
@@ -53,7 +53,6 @@ export function Chatroom(props: ChatroomProps) {
 
   useEffect(() => {
     props.socket.on('chatData', (chatItems : ChatroomItems) => {
-
       setChatName(chatItems.chatName);
       setChatTime(chatItems.time);
       setChatTopic(chatItems.chatTopic);
@@ -71,10 +70,10 @@ export function Chatroom(props: ChatroomProps) {
       </div>
       <div style={{ display: 'flex' }}>
         <div className='side-bar'>
-          <SideBar 
-            time={chatTime} 
-            socket={props.socket} 
-            code={code} name={name} 
+          <SideBar
+            time={chatTime}
+            socket={props.socket}
+            code={code} name={name}
             messages={masterMessages}
             setDisabled={setDisabled}
             inactivity={inactivity}
@@ -83,132 +82,16 @@ export function Chatroom(props: ChatroomProps) {
             chatTopic={chatTopic}/>
         </div>
         <div className='body-container'>
-          <ChatBox 
-            socket={props.socket} 
-            code={code} 
-            setMasterMessages={setMasterMessages} 
+          <ChatBox
+            socket={props.socket}
+            code={code}
+            setMasterMessages={setMasterMessages}
             disabled={disabled}
             inactivity={inactivity}
             setInactivity={setInactivity}/>
         </div>
+
       </div>
-    </div>
-  );
-}
-
-interface SideBarProps {
-  time: number;
-  socket: Socket;
-  code: String;
-  name : String;
-  messages : JSX.Element[];
-  setDisabled : StateSetter<boolean>;
-  inactivity : string;
-  setInactivity : StateSetter<string>;
-  chatName: string;
-  chatTopic: string;
-}
-
-function SideBar(props : SideBarProps) {
-  const [isPopupVisible, setPopupVisible] = useState(false);
-  const [time, setTime] = useState(props.time);
-  const [chatName, setChatName] = useState(props.chatName);
-  const [chatTopic, setChatTopic] = useState(props.chatTopic);
-
-  useEffect(() => {
-    setTime(props.time);
-    setChatName(props.chatName);
-    setChatTopic(props.chatTopic);
-  }, [props.time, props.chatName, props.chatTopic]);
-
-  const togglePopup = () => {
-    setPopupVisible(!isPopupVisible);
-  };
-
-  const handleExport = () => {
-    let t;
-    const csvContent =
-      'Sender,Text,Timestamp\n' +
-      props.messages.map((message: any, index, array) => {
-          const user = message.props.user;
-          const text = message.props.message;
-          if (message.props.timestamp == '' && index > 0)
-            t = array[index - 1].props.timestamp || '';
-          else 
-            t = message.props.timestamp || '';
-          const timestamp = t;
-          return `"${user}","${text}","${timestamp}"`;
-        })
-        .join('\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-
-    const filename = `chat_export_${props.code}.csv`;
-    saveAs(blob, filename);
-  };
-
-  const handleChatroomLeave = () => {
-    if (props.socket && props.code) {
-      props.socket.emit('leaveLobby', props.code, props.name);
-    }
-    
-    window.location.href = 'home';
-  };
-
-  return (
-    <div style={{ paddingLeft: 20, paddingRight:20 }}>
-      
-      {/* <div className='chatroom-box'>
-        <div className='chatroom-img' />
-        <p className='chatroom-word'>Chatroom</p>
-      </div> */}
-      <div style={{ marginTop: '20px' }}>
-      <ChatHeader chatname={chatName} topic={chatTopic}/>
-        <Timer 
-          time={time} 
-          socket={props.socket} 
-          code={props.code} 
-          setDisabled={props.setDisabled}
-          inactivity={props.inactivity}
-          setInactivity={props.setInactivity}/>
-      </div>
-
-      <div className='export-box'>
-        <div className='export-img' />
-        <p className='export-word' onClick={togglePopup}>Export</p>
-
-        {/* Popup menu */}
-        <div
-          className='export-popup'
-          style={{ display: isPopupVisible ? 'block' : 'none' }}
-        >
-          <p>Export As .csv</p>
-
-          {/* Export button */}
-          <button className='export-button' onClick={handleExport}>
-            Export
-          </button>
-        </div>
-      </div>
-{/* 
-      <div className='exit-position'>
-        <button className='exit-button' onClick={handleChatroomLeave}>Quit Chatroom</button>
-      </div> */}
-    </div>
-  )
-}
-
-interface ChatHeaderProps {
-  chatname: string,
-  topic: string
-}
-
-function ChatHeader(props: ChatHeaderProps) {
-  return (
-    <div className='side-container'>
-      <p className='sider-heading'>Collaborative Task</p>
-      <p>Please discuss the following question</p>
-      <p>{props.topic}</p>
     </div>
   );
 }
@@ -350,7 +233,7 @@ function ChatBox(props: ChatBoxProps) {
       console.log(` LOBBY ID: ${props.code}, sending ${input}`);
 
       props.socket.emit('lobbyMessage', props.code, messageData);
-      
+
       setInput('');
     };
 
@@ -409,91 +292,3 @@ const formatTimestamp = (timestamp: number) => {
 
   return date.toLocaleString('en-US', options);
 };
-
-interface TimerProps {
-  time : number;
-  socket : Socket;
-  code : String;
-  setDisabled : StateSetter<boolean>;
-  inactivity : string;
-  setInactivity : StateSetter<string>;
-}
-
-function Timer(props : TimerProps) {
-  const [seconds, setSeconds] = useState<number>(60 * -1);
-  const [inactivitySeconds, setInactivitySeconds] = useState(0);
-
-  useEffect(() => {
-    setSeconds(60 * props.time);
-  }, [props.time]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSeconds((prevSeconds) => {
-        if (prevSeconds > 0) {
-          return prevSeconds - 1;
-        } else {
-          // If the remaining time is zero or negative, clear the interval
-          clearInterval(intervalId);
-          return 0;
-        }
-      });
-
-      setInactivitySeconds(prevSeconds => prevSeconds + 1);
-
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
-    if (inactivitySeconds > 60) {
-      props.setInactivity('inactive');
-    }
-  })
-
-  useEffect(() => {
-    if (props.inactivity === 'message') {
-      props.setInactivity('pending');
-      setInactivitySeconds(0);
-    }
-  })
-
-  useEffect(() => {
-    if (seconds === 60) {
-      props.socket.emit('chatStartConclusionPhase', props.code, 1);
-    }
-  });
-
-  useEffect(() => {
-    if (seconds === 0) {props.setDisabled(true)};
-  });
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const remainingSeconds = time % 60;
-    return (
-      <p style={{ margin: 0, marginTop: 10, fontSize: '20px', fontWeight: 'bold'}}>
-        <span style={{ backgroundColor: 'white', padding: '7px 14px', borderRadius: '4px', width: '20px', display: 'inline-block' }}>
-          {minutes}
-        </span>{' '}
-        m
-        {' '}<span style={{ backgroundColor: 'white', padding: '7px 14px', borderRadius: '4px', width: '20px', display: 'inline-block' }}>
-          {remainingSeconds}
-        </span>{' '}
-        s
-      </p>
-    );
-  };
-
-  return (
-    <div className='side-container'>
-      <p className='sider-heading'>
-        Task Completion
-      </p>
-      <p style={{ margin: '8px 0'}}>
-        {formatTime(seconds)}
-      </p>
-    </div>
-  );
-}
