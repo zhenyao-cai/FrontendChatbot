@@ -7,29 +7,30 @@ import { saveAs } from 'file-saver'; // npm install file-saver
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { HiArrowLongRight } from "react-icons/hi2";
-import { Radar, RadarChart, PolarGrid, Legend, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 
 type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
+
 interface ChatroomItems {
   time: number;
   chatName: string;
   chatTopic: string;
 }
+
 interface ChatroomProps {
   socket: Socket;
 }
 
 export function Chatroom(props: ChatroomProps) {
-  const [code, setCode] = useState('');
-  const [chatName, setChatName] = useState('');
-  const [chatTime, setChatTime] = useState(1);
-  const [chatTopic, setChatTopic] = useState('');
-  const [name, setName] = useState('Guest');
+  const [code,           setCode]           = useState('');
+  const [chatName,       setChatName]       = useState('');
+  const [chatTime,       setChatTime]       = useState(1);
+  const [chatTopic,      setChatTopic]      = useState('');
+  const [name,           setName]           = useState('Guest');
   const [masterMessages, setMasterMessages] = useState<JSX.Element[]>([]);
-  const [disabled, setDisabled] = useState(false);
-  const [inactivity, setInactivity] = useState('pending');
-
-  const [score, setScore] = useState(10);  // participation score
+  const [disabled,       setDisabled]       = useState(false);
+  const [inactivity,     setInactivity]     = useState('pending');
+  const [score,          setScore]          = useState(10);  // participation score
 
   useEffect(() => {
     // Retrieve the name parameter from the URL
@@ -66,7 +67,6 @@ export function Chatroom(props: ChatroomProps) {
       setChatTopic(chatItems.chatTopic);
     });
   }, []);
-
 
   return (
     <div style={{
@@ -243,7 +243,6 @@ function RightSideBar(props: RightSideBarProps) {
   );
 }
 
-
 interface ChatHeaderProps {
   chatname: string,
   topic: string
@@ -287,6 +286,7 @@ function ChatBox(props: ChatBoxProps) {
   const [name, setName] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [input, setInput] = useState('');
 
   useEffect(() => {
     // Emit joinRoom when the component mounts or roomId/socket changes
@@ -342,9 +342,14 @@ function ChatBox(props: ChatBoxProps) {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [input]);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -379,9 +384,8 @@ function ChatBox(props: ChatBoxProps) {
   }
 
   const MessageInput = () => {
-    const [input, setInput] = useState('');
-
     const handleSubmit = (e: React.FormEvent) => {
+      // prevent auto submit form
       e.preventDefault();
       if (input === '') {
         return;
@@ -397,13 +401,15 @@ function ChatBox(props: ChatBoxProps) {
       console.log(` LOBBY ID: ${props.code}, sending ${input}`);
 
       props.socket.emit('lobbyMessage', props.code, messageData);
-      
-      setInput('');
+      // setInput('BBBBBBBB');
     };
 
     return (
       <div>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <form onSubmit={handleSubmit} 
+              style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+          {/* input box */}
           <input
             type="text"
             ref={inputRef}
@@ -411,8 +417,10 @@ function ChatBox(props: ChatBoxProps) {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Message"
             className='message-input'
-            disabled={props.disabled}
+            // disabled={props.disabled}
           />
+
+          {/* submit button */}
           <button type="submit" className='message-button'>
             <img
               src="send.png"
@@ -424,6 +432,7 @@ function ChatBox(props: ChatBoxProps) {
               }}
             />
           </button>
+
         </form>
       </div>
     );
@@ -432,11 +441,15 @@ function ChatBox(props: ChatBoxProps) {
   return (
     <div>
       <div className='chatbox-container'>
+
         {messages.map((message, index) => (
           <div key={index}>{message}</div>
         ))}
+
         <div ref={messagesEndRef} />
+
       </div>
+
       <MessageInput />
     </div>
   )
