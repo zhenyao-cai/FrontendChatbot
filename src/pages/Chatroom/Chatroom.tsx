@@ -129,9 +129,9 @@ interface SideBarProps {
 
 function SideBar(props : SideBarProps) {
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const [time, setTime] = useState(props.time);
-  const [chatName, setChatName] = useState(props.chatName);
-  const [chatTopic, setChatTopic] = useState(props.chatTopic);
+  const [time,           setTime]         = useState(props.time);
+  const [chatName,       setChatName]     = useState(props.chatName);
+  const [chatTopic,      setChatTopic]    = useState(props.chatTopic);
 
   useEffect(() => {
     setTime(props.time);
@@ -283,10 +283,11 @@ interface ChatBoxProps {
 
 function ChatBox(props: ChatBoxProps) {
   const [messages, setMessages] = useState<JSX.Element[]>([]);
-  const [name, setName] = useState('');
+  const [name,     setName]     = useState('');
+  const [input,    setInput]    = useState(''); // input box
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [input, setInput] = useState('');
+  const inputRef       = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // Emit joinRoom when the component mounts or roomId/socket changes
@@ -339,21 +340,24 @@ function ChatBox(props: ChatBoxProps) {
   });
 
   useEffect(() => {
+    scrollToBottom();
     if (inputRef.current) {
       inputRef.current.focus();
+      console.log(`Refocus when messages change`);
     }
-    scrollToBottom();
   }, [messages]);
 
+  // Refocus to input box when user type in
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, [input]);
+  });
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      console.log("scroll finished")
     }
   };
 
@@ -399,9 +403,8 @@ function ChatBox(props: ChatBoxProps) {
       };
 
       console.log(` LOBBY ID: ${props.code}, sending ${input}`);
-
       props.socket.emit('lobbyMessage', props.code, messageData);
-      // setInput('BBBBBBBB');
+      setInput('');
     };
 
     return (
@@ -441,10 +444,8 @@ function ChatBox(props: ChatBoxProps) {
   return (
     <div>
       <div className='chatbox-container'>
-
-        {messages.map((message, index) => (
-          <div key={index}>{message}</div>
-        ))}
+        {/* render the chatbox through iterating all elements in messages*/}
+        {messages.map((message, index) => (<div key={index}>{message}</div>))}
 
         <div ref={messagesEndRef} />
 
