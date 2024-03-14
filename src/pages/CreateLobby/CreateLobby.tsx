@@ -13,13 +13,13 @@ interface UserListLobby {
 }
 
 export function CreateLobby(props: CreateLobbyProps) {
-  const [name, setName] = useState('');
-  const [lobbyId, setLobbyId] = useState('. . . .');
-  const [chatTime, setChatTime] = useState(10);
-  const [botName, setBotName] = useState('ChatZot');
+  const [name,      setName] = useState('');
+  const [lobbyId,   setLobbyId] = useState('. . . .');
+  const [chatTime,  setChatTime] = useState(10);
+  const [botName,   setBotName] = useState('ChatZot');
   const [assertiveness, setAssertiveness] = useState(2);
-  const [topic, setTopic] = useState('');
-  const [chatName, setChatName] = useState('Discussion');
+  const [topic,     setTopic] = useState('');
+  const [chatName,  setChatName] = useState('Discussion');
   const [userCount, setUserCount] = useState(1);
 
   useEffect(() => {
@@ -101,22 +101,39 @@ export function CreateLobby(props: CreateLobbyProps) {
         <img src="logo.jpg" alt="Logo" className="logo" />
       </div>
 
+      {/* Start Chat Botton */}
       <button onClick={handleChatroomStart} className="top-right-buttoon">
         Start Chat
       </button>
 
       <div className={'main-header'}>
+
         <p style={{ fontSize: 25, color: '#527785', marginTop: 20 }}>
           Join Code
         </p>
+
         <div className={'box-container'} style={{ marginTop: 12, width: 285, height: 78, margin: 'auto' }}>
-          <p style={{ fontSize: 36, color: '#383838' }}>{lobbyId}</p>
+          <p style={{ fontSize: 36, color: '#383838' }}>
+            {lobbyId}
+          </p>
         </div>
+
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: 40 }}>
-        <BotSettings setBotName={setBotName} setAssertiveness={setAssertiveness} />
-        <LobbySettings setChatTime={setChatTime} setTopic={setTopic} setChatName={setChatName} userCount={userCount} />
+
+        {/* import BotSettings.tsx */}
+        <BotSettings setBotName={setBotName} 
+                     setAssertiveness={setAssertiveness}
+        />
+
+        {/* import LobbySettings.tsx */}
+        <LobbySettings setChatTime={setChatTime} 
+                       setTopic   ={setTopic} 
+                       setChatName={setChatName} 
+                       userCount  ={userCount}
+        />
+
       </div>
     </div>
   );

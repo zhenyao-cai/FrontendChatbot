@@ -10,6 +10,7 @@ const SERVER_URL = 'http://localhost:4000';
 const socket = io(SERVER_URL);
 
 // "/home" is the homepage
+// Teacher route: CreateLobby->LobbySettings->
 export function App() {
   return (
     <div className="app">

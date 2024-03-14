@@ -12,7 +12,9 @@ interface BotSettingsProps {
 
 export function BotSettings(props : BotSettingsProps) {
 
-  const marks = [{label: 'Low', value: 1}, {label: 'Medium', value: 2}, {label: 'High', value: 3}];
+  const marks = [{label: 'Low',    value: 1}, 
+                 {label: 'Medium', value: 2}, 
+                 {label: 'High',   value: 3}];
 
   const handleAssertChange = (event: Event, newValue: number | number[]) => {
     props.setAssertiveness(newValue as number);
