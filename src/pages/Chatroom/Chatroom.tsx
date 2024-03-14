@@ -9,6 +9,7 @@ import {ChatBox}      from './ChatBox';
 
 
 type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
+
 interface ChatroomItems {
   time: number;
   chatName: string;
@@ -20,16 +21,15 @@ interface ChatroomProps {
 }
 
 export function Chatroom(props: ChatroomProps) {
-  const [code, setCode] = useState('');
-  const [chatName, setChatName] = useState('');
-  const [chatTime, setChatTime] = useState(1);
-  const [chatTopic, setChatTopic] = useState('');
-  const [name, setName] = useState('Guest');
+  const [code,           setCode]           = useState('');
+  const [chatName,       setChatName]       = useState('');
+  const [chatTime,       setChatTime]       = useState(1);
+  const [chatTopic,      setChatTopic]      = useState('');
+  const [name,           setName]           = useState('Guest');
   const [masterMessages, setMasterMessages] = useState<JSX.Element[]>([]);
-  const [disabled, setDisabled] = useState(false);
-  const [inactivity, setInactivity] = useState('pending');
-
-  const [score, setScore] = useState(10);  // participation score
+  const [disabled,       setDisabled]       = useState(false);
+  const [inactivity,     setInactivity]     = useState('pending');
+  const [score,          setScore]          = useState(10);  // participation score
 
   useEffect(() => {
     // Retrieve the name parameter from the URL
@@ -66,7 +66,6 @@ export function Chatroom(props: ChatroomProps) {
       setChatTopic(chatItems.chatTopic);
     });
   }, []);
-
 
   return (
     <div style={{
