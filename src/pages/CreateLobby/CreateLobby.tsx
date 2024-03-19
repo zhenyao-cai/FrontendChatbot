@@ -13,14 +13,14 @@ interface UserListLobby {
 }
 
 export function CreateLobby(props: CreateLobbyProps) {
-  const [name,      setName] = useState('');
-  const [lobbyId,   setLobbyId] = useState('. . . .');
-  const [chatTime,  setChatTime] = useState(10);
-  const [botName,   setBotName] = useState('ChatZot');
+  const [name,          setName]          = useState('');
+  const [lobbyId,       setLobbyId]       = useState('. . . .');
+  const [chatTime,      setChatTime]      = useState(10);
+  const [botName,       setBotName]       = useState('ChatZot');
   const [assertiveness, setAssertiveness] = useState(2);
-  const [topic,     setTopic] = useState('');
-  const [chatName,  setChatName] = useState('Discussion');
-  const [userCount, setUserCount] = useState(1);
+  const [topic,         setTopic]         = useState('');
+  const [chatName,      setChatName]      = useState('Discussion');
+  const [userCount,     setUserCount]     = useState(1);
 
   useEffect(() => {
     // Retrieve the name parameter from the URL
@@ -65,7 +65,8 @@ export function CreateLobby(props: CreateLobbyProps) {
 
     if (lobbyId !== '. . . .') {
       const encodedId = encodeURIComponent(lobbyId);
-      window.location.href = `chatroom?name=${name}&id=${encodedId}`; // jump to chatroom page
+      // window.location.href = `chatroom?name=${name}&id=${encodedId}`; // jump to chatroom page
+      window.location.href = `monitor`; // jump to monitor page
     }
   };
 
@@ -122,12 +123,12 @@ export function CreateLobby(props: CreateLobbyProps) {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: 40 }}>
 
-        {/* import BotSettings.tsx */}
+        {/* Import from BotSettings.tsx */}
         <BotSettings setBotName={setBotName} 
                      setAssertiveness={setAssertiveness}
         />
 
-        {/* import LobbySettings.tsx */}
+        {/* Import from LobbySettings.tsx */}
         <LobbySettings setChatTime={setChatTime} 
                        setTopic   ={setTopic} 
                        setChatName={setChatName} 

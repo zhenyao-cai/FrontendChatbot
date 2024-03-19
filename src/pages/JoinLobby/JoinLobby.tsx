@@ -1,7 +1,9 @@
-import './JoinLobby.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
+
+import './JoinLobby.css';
+
 interface JoinLobbyProps {
   socket : Socket;
 }
@@ -11,14 +13,14 @@ interface LobbbyInformationProps {
 }
 
 export function JoinLobby(props : JoinLobbyProps) {
-  const [name, setName] = useState('Guest');
-  const [code, setCode] = useState('');
-  const [disabled, setDisabled] = useState(false);
+  const [name,       setName]       = useState('Guest');
+  const [code,       setCode]       = useState('');
+  const [disabled,   setDisabled]   = useState(false);
   const [lobbyState, setLobbyState] = useState('Not Joined');
-  const [userList, setUserList] = useState<string[]>([]);
+  const [userList,   setUserList]   = useState<string[]>([]);
 
   // Initialize the state with x boxes when the component is mounted
-  React.useEffect(() => {
+  useEffect(() => {
     // Retrieve the name parameter from the URL
     const searchParams = new URLSearchParams(window.location.search);
     const nameFromURL = searchParams.get('name') || 'Guest';
@@ -49,7 +51,7 @@ export function JoinLobby(props : JoinLobbyProps) {
     });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleChatStarted = () => {
       const encodedId = encodeURIComponent(code);
       window.location.href = `chatroom?name=${name}&id=${encodedId}`;
@@ -68,7 +70,7 @@ export function JoinLobby(props : JoinLobbyProps) {
     };
   }, [code, name]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (lobbyState === "Joined") {
       props.socket.emit('getUserListOfLobby', code)
     }
@@ -83,7 +85,7 @@ export function JoinLobby(props : JoinLobbyProps) {
     };
   }, [code, lobbyState, props.socket]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     props.socket.on('userListOfLobbyResponse', (userListObj: {userList: string[]}) => {
       setUserList(userListObj.userList);
     })
@@ -123,9 +125,19 @@ export function JoinLobby(props : JoinLobbyProps) {
         </div>
       </div>
 
-      {(lobbyState === 'Waiting') && <p className="waiting-paragraph">Attempting to join lobby...</p>}
-      {(lobbyState === 'Joined') && <LobbyInformation users={userList}/>}
-      {(lobbyState === 'Error') && <p className="waiting-paragraph">Error joining room. Please try again.</p>}
+      {(lobbyState === 'Waiting') && 
+      <p className="waiting-paragraph">
+        Attempting to join lobby...
+      </p>}
+
+      {(lobbyState === 'Joined') && 
+        <LobbyInformation users={userList}
+      />}
+
+      {(lobbyState === 'Error') && 
+      <p className="waiting-paragraph">
+        Error joining room. Please try again.
+      </p>}
       
     </div>
   );

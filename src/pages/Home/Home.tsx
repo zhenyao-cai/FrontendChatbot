@@ -1,11 +1,15 @@
 import './Home.css';
 import React, { useState } from 'react';
 
+import { Socket } from 'socket.io-client';
+
 // Home page path="/home"
 export function Home() {  
-  const [isPopupOpen, setPopupOpen] = useState(false);
-  const [name, setName] = useState('');
-  const [actionType, setActionType] = useState<'join' | 'create' | undefined>();
+  const [isPopupOpen, setPopupOpen]  = useState(false);
+  const [name,        setName]       = useState('');
+  const [actionType,  setActionType] = useState<'join' | 'create' | undefined>();
+
+  const [LobbyCreated, setLobbyCreated]  = useState(false);
 
   const openPopup = (type: 'join' | 'create') => {
     setActionType(type);
@@ -41,6 +45,11 @@ export function Home() {
       }
     }
   };
+
+  socket.on('lobbyCreated'){
+
+
+  }
 
   return (
     <div className="Home">
