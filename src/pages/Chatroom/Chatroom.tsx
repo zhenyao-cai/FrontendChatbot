@@ -82,25 +82,26 @@ export function Chatroom(props: ChatroomProps) {
         {/* left side bar, display time and stage */}
         <div className='side-bar'>
           <SideBar
-            time={chatTime} 
-            socket={props.socket} 
-            code={code} name={name} 
-            messages={masterMessages}
-            setDisabled={setDisabled}
-            inactivity={inactivity}
-            setInactivity={setInactivity}
-            chatName={chatName}
-            chatTopic={chatTopic}/>
+            time          ={chatTime} 
+            socket        ={props.socket} 
+            code          ={code} 
+            name          ={name} 
+            messages      ={masterMessages}
+            setDisabled   ={setDisabled}
+            inactivity    ={inactivity}
+            setInactivity ={setInactivity}
+            chatName      ={chatName}
+            chatTopic     ={chatTopic}/>
         </div>
 
         <div className='body-container'>
           <ChatBox 
-            socket={props.socket} 
-            code={code} 
-            setMasterMessages={setMasterMessages} 
-            disabled={disabled}
-            inactivity={inactivity}
-            setInactivity={setInactivity}/>
+            socket            ={props.socket} 
+            code              ={code} 
+            setMasterMessages ={setMasterMessages} 
+            disabled          ={disabled}
+            inactivity        ={inactivity}
+            setInactivity     ={setInactivity}/>
         </div>
 
         {/* right side bar, display participation score and visualization */}

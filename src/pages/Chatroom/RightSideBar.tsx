@@ -77,9 +77,9 @@ export function RightSideBar(props: RightSideBarProps) {
 function ParticipationScore(props : RightSideBarProps){
     return (
         <div className='side-container'>
-        <p className='sider-heading'>Group analysis</p>
-        <p className='sider-subheading'>Your Participation Score:</p>
-        <p className='sider-heading'>{props.score}</p>
+            <p className='sider-heading'>Group analysis</p>
+            <p className='sider-subheading'>Your Participation Score:</p>
+            <p className='sider-heading'>{props.score}</p>
         </div>
     );
 }
