@@ -1,15 +1,21 @@
 import './Home.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Socket } from 'socket.io-client';
 
-// Home page path="/home"
-export function Home() {  
-  const [isPopupOpen, setPopupOpen]  = useState(false);
-  const [name,        setName]       = useState('');
-  const [actionType,  setActionType] = useState<'join' | 'create' | undefined>();
+interface HomeProps {
+  socket: Socket;
+}
 
-  const [LobbyCreated, setLobbyCreated]  = useState(false);
+// Home page path="/home"
+export function Home(props:HomeProps) {  
+  const [isPopupOpen, setPopupOpen]  = useState(false);
+  // user name
+  const [name,         setName]         = useState('');
+  // user password
+  const [password,     setPassword]     = useState('');
+  const [actionType,   setActionType]   = useState<'join' | 'create' | undefined>();
+  const [LobbyCreated, setLobbyCreated] = useState(false);
 
   const openPopup = (type: 'join' | 'create') => {
     setActionType(type);
@@ -35,6 +41,10 @@ export function Home() {
     setName(e.target.value);
   };
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
   const handleNameKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -46,10 +56,12 @@ export function Home() {
     }
   };
 
-  socket.on('lobbyCreated'){
+  useEffect(() => {
+    props.socket.on('lobbyCreated', () => {
+      setLobbyCreated(true);
+    });
+  },[]);
 
-
-  }
 
   return (
     <div className="Home">
@@ -61,9 +73,13 @@ export function Home() {
           Welcome to ChatBot!
         </h1>
 
-          <button className="button" onClick={() => openPopup('join')}>
+          {LobbyCreated&&
+          <button className="button"
+                  disabled={!LobbyCreated}
+                  onClick={() => openPopup('join')}>
+                  
             Join Chatroom
-          </button>
+          </button>}
 
           <button className="button" onClick={() => openPopup('create')}>
             Create Chatroom
@@ -74,14 +90,21 @@ export function Home() {
           <div className="popup-overlay"></div>
           <div className="popup">
 
-            <h2>Name</h2>
-
+            <h2>Login</h2>
             <input
               type="text"
               value={name}
               onChange={handleNameChange}
               onKeyPress={handleNameKeyPress}
               placeholder="Enter your name"
+            />
+
+            <input
+              type="text"
+              value={password}
+              onChange={handlePasswordChange}
+              onKeyPress={handleNameKeyPress}
+              placeholder="Enter your password"
             />
 
             <button onClick={actionType === 'create' ? handleCreateRoomClick : handleLinkClick}>
