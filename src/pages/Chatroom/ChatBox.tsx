@@ -14,13 +14,13 @@ interface ChatBoxProps {
   }
   
 export function ChatBox(props: ChatBoxProps) {
-    const [messages, setMessages] = useState<JSX.Element[]>([]);
-    const [name, setName] = useState('');
+    const [messages,  setMessages]  = useState<JSX.Element[]>([]);
+    const [name,      setName]      = useState('');
+    const [input,     setInput]     = useState(''); // input box input
+
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
-  
-    const storedValue = localStorage.getItem('inputValue') || '';
-    const [input, setInput] = useState('');
+    const inputRef       = useRef<HTMLInputElement>(null);
+
   
     useEffect(() => {
       // Emit joinRoom when the component mounts or roomId/socket changes
@@ -73,22 +73,19 @@ export function ChatBox(props: ChatBoxProps) {
     });
   
     useEffect(() => {
-      console.log(` LOBBY ID: ${props.code}, after render ${input}`);
-      // const storedValue = localStorage.getItem('inputValue') || '';
-      if (inputRef.current) {
-        console.log(`refocus`);
-        inputRef.current.focus();
-      }
-    }, [input]);
-  
-    useEffect(() => {
       scrollToBottom();
       if (inputRef.current) {
-        console.log(`refocus`);
+        inputRef.current.focus();
+        console.log(`Refocus when messages change`);
+      }
+    }, [messages]);
+  
+    // Refocus to input box when user type in
+    useEffect(() => {
+      if (inputRef.current) {
         inputRef.current.focus();
       }
-      
-    }, [messages]);
+    });
   
     const scrollToBottom = () => {
       if (messagesEndRef.current) {
@@ -152,18 +149,12 @@ export function ChatBox(props: ChatBoxProps) {
     }
   
     const MessageInput = () => {
-      // const [input, setInput] = useState('');
-  
-  
       const handleSubmit = (e: React.FormEvent) => {
-        console.log(` LOBBY ID: ${props.code}, before sending ${input}`);
+        // prevent auto submit form
         e.preventDefault();
         if (input === '') {
           return;
         }
-  
-        localStorage.setItem('inputValue', input);
-        
   
         let messageData = {
           text: input,
@@ -173,26 +164,27 @@ export function ChatBox(props: ChatBoxProps) {
         };
   
         console.log(` LOBBY ID: ${props.code}, sending ${input}`);
-  
         props.socket.emit('lobbyMessage', props.code, messageData);
-  
-        console.log(` LOBBY ID: ${props.code}, after sending ${input}`);
-        setInput(storedValue);
-        // setInput('');
+        setInput('');
       };
   
       return (
         <div>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <form onSubmit={handleSubmit} 
+                style={{ display: 'flex', justifyContent: 'space-between' }}>
+  
+            {/* input box */}
             <input
-              type="text"
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Message"
-              className='message-input'
-              disabled={props.disabled}
+              type        ="text"
+              ref         ={inputRef}
+              value       ={input}
+              onChange    ={(e) => setInput(e.target.value)}
+              placeholder ="Message"
+              className   ='message-input'
+              // disabled={props.disabled}
             />
+  
+            {/* submit button */}
             <button type="submit" className='message-button'>
               <img
                 src="send.png"
@@ -204,6 +196,7 @@ export function ChatBox(props: ChatBoxProps) {
                 }}
               />
             </button>
+  
           </form>
         </div>
       );
