@@ -22,9 +22,9 @@ interface SideBarProps {
   
 export function SideBar(props : SideBarProps) {
     const [isPopupVisible, setPopupVisible] = useState(false);
-    const [time, setTime] = useState(props.time);
-    const [chatName, setChatName] = useState(props.chatName);
-    const [chatTopic, setChatTopic] = useState(props.chatTopic);
+    const [time,           setTime]         = useState(props.time);
+    const [chatName,       setChatName]     = useState(props.chatName);
+    const [chatTopic,      setChatTopic]    = useState(props.chatTopic);
   
     useEffect(() => {
       setTime(props.time);
