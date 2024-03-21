@@ -33,6 +33,7 @@ export function CreateLobby(props: CreateLobbyProps) {
     setName(formattedName);
   }, [setName]);
 
+  // emit create lobby request
   useEffect(() => {
     if (name) {
       props.socket.emit('createLobby', name);
@@ -40,10 +41,12 @@ export function CreateLobby(props: CreateLobbyProps) {
   }, [name, props.socket]);
 
   useEffect(() => {
+    // Set lobbyId
     const handleLobbyCreated = (newLobbyId: string) => {
       setLobbyId(newLobbyId);
     };
 
+    // listen to server response
     props.socket.on('lobbyCreated', handleLobbyCreated);
 
     return () => {
@@ -51,6 +54,7 @@ export function CreateLobby(props: CreateLobbyProps) {
     };
   }, [props.socket]);
 
+  // finish setting, go to monitor page
   const handleChatroomStart = () => {
 
     let lobbyData = {
@@ -60,6 +64,7 @@ export function CreateLobby(props: CreateLobbyProps) {
       topic: topic,
       chatName: chatName
     }
+
     // send bot settings thru socket
     props.socket.emit('updateBotSettings', lobbyId, lobbyData);
 
@@ -70,6 +75,7 @@ export function CreateLobby(props: CreateLobbyProps) {
     }
   };
 
+  // get user lists through lobbyId
   useEffect(() => {
     props.socket.emit('getUserListOfLobby', lobbyId);
 
@@ -102,22 +108,22 @@ export function CreateLobby(props: CreateLobbyProps) {
         <img src="logo.jpg" alt="Logo" className="logo" />
       </div>
 
-      {/* Start Chat Botton */}
+      {/* Finish setting Botton */}
       <button onClick={handleChatroomStart} className="top-right-buttoon">
-        Start Chat
+        Finish
       </button>
 
       <div className={'main-header'}>
 
-        <p style={{ fontSize: 25, color: '#527785', marginTop: 20 }}>
+        {/* <p style={{ fontSize: 25, color: '#527785', marginTop: 20 }}>
           Join Code
-        </p>
-
+        </p> */}
+{/* 
         <div className={'box-container'} style={{ marginTop: 12, width: 285, height: 78, margin: 'auto' }}>
           <p style={{ fontSize: 36, color: '#383838' }}>
             {lobbyId}
           </p>
-        </div>
+        </div> */}
 
       </div>
 

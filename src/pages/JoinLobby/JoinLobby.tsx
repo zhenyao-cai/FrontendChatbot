@@ -9,6 +9,8 @@ interface JoinLobbyProps {
 }
 
 interface LobbbyInformationProps {
+  // A list of strings containing all users' names
+  // users = userlist
   users : string[];
 }
 
@@ -31,26 +33,36 @@ export function JoinLobby(props : JoinLobbyProps) {
     setName(() => formattedName);
   }, []);
 
+  // Submit user's code to server
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   
     setLobbyState('Waiting');
+
+    // get lobbycode from server
+    props.socket.emit('getLobbyCode');
   
-    // Emit a Socket.IO event to join the lobby
-    props.socket.emit('joinLobby', code, name);
-  
+    // Wait for lobbycode
+    props.socket.on('getLobbyCodeResponse', (guid) => {
+      setCode(guid);
+      // Request to join the lobby
+      props.socket.emit('joinLobby', code, name);
+    });
+
     // Listen for the server's response
+    // If joined successfully, set state to 'joined'
     props.socket.on('joinedLobby', (guid) => {
       setLobbyState('Joined');
       setDisabled(true);
     });
-  
+
     props.socket.on('lobbyError', (error) => {
       console.error('Error joining lobby:', error);
       setLobbyState('Error');
     });
   };
 
+  // start chat
   useEffect(() => {
     const handleChatStarted = () => {
       const encodedId = encodeURIComponent(code);
@@ -70,6 +82,7 @@ export function JoinLobby(props : JoinLobbyProps) {
     };
   }, [code, name]);
 
+  // Send request for UserList from server
   useEffect(() => {
     if (lobbyState === "Joined") {
       props.socket.emit('getUserListOfLobby', code)
@@ -85,6 +98,7 @@ export function JoinLobby(props : JoinLobbyProps) {
     };
   }, [code, lobbyState, props.socket]);
 
+  // When server response, update userList
   useEffect(() => {
     props.socket.on('userListOfLobbyResponse', (userListObj: {userList: string[]}) => {
       setUserList(userListObj.userList);
@@ -103,26 +117,33 @@ export function JoinLobby(props : JoinLobbyProps) {
       <div className="logo-container">
         <img src="logo.jpg" alt="Logo" className="logo" />
       </div>
+      
       <a href="home">
         <button className="top-right-button">Quit Chatroom</button>
       </a>
 
       <div className="content-box">
-        <h2>Enter Code</h2>
-        <div className="joinbox">
-          <form onSubmit={handleSubmit}>
+        {/* <h2>Enter Code</h2> */}
+        {/* <div className="joinbox"> */}
+
+          {/* Input box for code */}
+          {/* <form onSubmit={handleSubmit}>
             <input 
-              className="joininput" 
-              type="text" placeholder="" 
-              value={code} 
-              onSubmit={handleSubmit} 
-              disabled={disabled} 
-              onChange={(e) => {
+              className   ="joininput" 
+              type        ="text" 
+              placeholder ="" 
+              value       ={code} 
+              onSubmit    ={handleSubmit} 
+              disabled    ={disabled} 
+              onChange    ={(e) => {
                 if (e.target.value.length <= 4) {
                   setCode(e.target.value);
-                }}} />
-          </form>
-        </div>
+                }
+              }
+            } />
+          </form> */}
+
+        {/* </div> */}
       </div>
 
       {(lobbyState === 'Waiting') && 
@@ -144,16 +165,21 @@ export function JoinLobby(props : JoinLobbyProps) {
 }
 
 interface UserBoxProps {
+  // name of the user
   content: string;
   index : number;
 }
 
+// Display student name
 function LobbyInformation(props : LobbbyInformationProps) {
   const [boxes, setBoxes] : any[] = useState([]);
   const [index, setIndex] = useState(0);
 
-  React.useEffect(() => {
+  // When props.users changes, update boxes
+  useEffect(() => {
     let initialBoxes = [];
+
+    // load UserBox to Boxes
     for (let i = 0; i < props.users.length; i++) {
       initialBoxes.push(<UserBox content={props.users[i]} index={i}/>);
     }
@@ -162,13 +188,21 @@ function LobbyInformation(props : LobbbyInformationProps) {
     setIndex(props.users.length-1);
   }, [props.users]);
 
+  // UserBox for display each joined user
   const UserBox = (props : UserBoxProps) => {
     return (
       <div className="b" key={props.index}>
+
+        {/* icon of user */}
         <div className="profile-icon">
           <img src="logo.jpg" alt="Logo" className="logo-icon" />{' '}
         </div>
-        <div className="box-content">{props.content}</div>
+
+        {/* name of user */}
+        <div className="box-content">
+          {props.content}
+        </div>
+
       </div>
     )
   }

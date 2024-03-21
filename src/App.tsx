@@ -16,9 +16,9 @@ export function App() {
   return (
     <div className="app">
       <Routes>
-        <Route index element={<Home />} />
+        <Route index element={<Home socket={socket}/>} />
         {/* <Route index element={<Chatroom />} />*/}
-        <Route path="/home"         element={<Home />} />
+        <Route path="/home"         element={<Home        socket={socket}/>} />
         <Route path="/createlobby"  element={<CreateLobby socket={socket} />} />
         <Route path="/monitor"      element={<Monitor     socket={socket} />} />
         <Route path="/joinlobby"    element={<JoinLobby   socket={socket} />} />
