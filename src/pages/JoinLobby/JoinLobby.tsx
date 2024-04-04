@@ -18,7 +18,7 @@ export function JoinLobby(props : JoinLobbyProps) {
   const [name,       setName]       = useState('Guest');
   const [code,       setCode]       = useState('');
   const [disabled,   setDisabled]   = useState(false);
-  const [lobbyState, setLobbyState] = useState('Not Joined');
+  const [lobbyState, setLobbyState] = useState('Waiting');
   const [userList,   setUserList]   = useState<string[]>([]);
 
   // Initialize the state with x boxes when the component is mounted
@@ -33,34 +33,84 @@ export function JoinLobby(props : JoinLobbyProps) {
     setName(() => formattedName);
   }, []);
 
-  // Submit user's code to server
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  
-    setLobbyState('Waiting');
+  // useEffect(() => {
+  //   if (lobbyState === "Waiting") {
+  //     props.socket.emit('joinLobby', code)
+  //   }
 
+  //   const intervalId = setInterval(() => {
+  //     if (lobbyState != 'Joined'){
+  //       props.socket.emit('joinLobby', code);
+  //       console.log("try join");
+  //     }
+  //   }, 3000);
+
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [code, lobbyState, props.socket]);
+
+  useEffect(() => {
     // get lobbycode from server
     props.socket.emit('getLobbyCode');
   
     // Wait for lobbycode
     props.socket.on('getLobbyCodeResponse', (guid) => {
+      console.log("getLobbyCodeResponse:", guid);
       setCode(guid);
       // Request to join the lobby
-      props.socket.emit('joinLobby', code, name);
+      props.socket.emit('joinLobby', code);
+      console.log("try join:", code);
     });
 
     // Listen for the server's response
     // If joined successfully, set state to 'joined'
     props.socket.on('joinedLobby', (guid) => {
+      console.log("joinedLobby");
       setLobbyState('Joined');
       setDisabled(true);
     });
 
-    props.socket.on('lobbyError', (error) => {
-      console.error('Error joining lobby:', error);
-      setLobbyState('Error');
-    });
-  };
+    // props.socket.on('lobbyError', (error) => {
+    //   if (lobbyState != 'Joined'){
+    //     console.error('Error joining lobby:', error);
+    //     setLobbyState('Error');
+    //   }
+    // });
+  }, [props.socket, lobbyState]);
+
+  // Submit user's code to server
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  
+  //   setLobbyState('Waiting');
+
+  //   // get lobbycode from server
+  //   props.socket.emit('getLobbyCode');
+  //   console.log("getLobbyCode");
+  
+  //   // Wait for lobbycode
+  //   props.socket.on('getLobbyCodeResponse', (guid) => {
+  //     console.log("getLobbyCodeResponse:", guid);
+  //     setCode(guid);
+  //     // Request to join the lobby
+  //     props.socket.emit('joinLobby', code, name);
+  //     console.log("joinLobby");
+  //   });
+
+  //   // Listen for the server's response
+  //   // If joined successfully, set state to 'joined'
+  //   props.socket.on('joinedLobby', (guid) => {
+  //     console.log("joinedLobby");
+  //     setLobbyState('Joined');
+  //     setDisabled(true);
+  //   });
+
+  //   props.socket.on('lobbyError', (error) => {
+  //     console.error('Error joining lobby:', error);
+  //     setLobbyState('Error');
+  //   });
+  // };
 
   // start chat
   useEffect(() => {
@@ -83,35 +133,35 @@ export function JoinLobby(props : JoinLobbyProps) {
   }, [code, name]);
 
   // Send request for UserList from server
-  useEffect(() => {
-    if (lobbyState === "Joined") {
-      props.socket.emit('getUserListOfLobby', code)
-    }
+  // useEffect(() => {
+  //   // if (lobbyState === "Joined") {
+  //     props.socket.emit('getUserListOfLobby', code)
+  //   // }
 
-    const intervalId = setInterval(() => {
-      props.socket.emit('getUserListOfLobby', code);
-      console.log(userList);
-    }, 3000);
+  //   const intervalId = setInterval(() => {
+  //     props.socket.emit('getUserListOfLobby', code);
+  //     console.log(userList);
+  //   }, 3000);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [code, lobbyState, props.socket]);
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [code, lobbyState, props.socket]);
 
   // When server response, update userList
-  useEffect(() => {
-    props.socket.on('userListOfLobbyResponse', (userListObj: {userList: string[]}) => {
-      setUserList(userListObj.userList);
-    })
+  // useEffect(() => {
+  //   props.socket.on('userListOfLobbyResponse', (userListObj: {userList: string[]}) => {
+  //     setUserList(userListObj.userList);
+  //   })
 
-    props.socket.on('userListOfLobbyResponseError', () => {});
-  }, []);
+  //   props.socket.on('userListOfLobbyResponseError', () => {});
+  // }, []);
 
   return (
     //three main sections: screen, content box, members box
     <div className="screen">
       <div>
-        <h1 className="joinheader">JOIN CHATROOM</h1>
+        <h1 className="joinheader">Join Chatroom</h1>
       </div>
 
       <div className="logo-container">
@@ -143,6 +193,10 @@ export function JoinLobby(props : JoinLobbyProps) {
             } />
           </form> */}
 
+          {/* <button onClick = {handleSubmit}>
+            Join {code}
+          </button> */}
+
         {/* </div> */}
       </div>
 
@@ -155,10 +209,10 @@ export function JoinLobby(props : JoinLobbyProps) {
         <LobbyInformation users={userList}
       />}
 
-      {(lobbyState === 'Error') && 
+      {/* {(lobbyState === 'Error') && 
       <p className="waiting-paragraph">
         Error joining room. Please try again.
-      </p>}
+      </p>} */}
       
     </div>
   );
@@ -210,12 +264,14 @@ function LobbyInformation(props : LobbbyInformationProps) {
   return (
     <div className='lobby-info'>
 
-      <p className="waiting-paragraph">Waiting for host . . .</p>
-      
-      <div className="border-container">
-        <p className="members-paragraph">Members</p>
-        <div className="boxes">{boxes}</div>
-      </div>
+      <p className="waiting-paragraph">Waiting for host...</p>
+      <p className="waiting-paragraph">Topic:</p>
+      <p className="waiting-paragraph">Task:</p>
+
+      {/* <div className="border-container"> */}
+        {/* <p className="members-paragraph">Members</p> */}
+        {/* <div className="boxes">{boxes}</div> */}
+      {/* </div> */}
     </div>
   );
 }

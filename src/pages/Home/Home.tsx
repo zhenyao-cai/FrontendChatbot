@@ -58,6 +58,7 @@ export function Home(props:HomeProps) {
 
   useEffect(() => {
     props.socket.on('lobbyCreated', () => {
+      console.log("lobbyCreated")
       setLobbyCreated(true);
     });
   },[]);
@@ -73,17 +74,15 @@ export function Home(props:HomeProps) {
           Welcome to ChatBot!
         </h1>
 
-          {LobbyCreated&&
-          <button className="button"
-                  disabled={!LobbyCreated}
-                  onClick={() => openPopup('join')}>
-                  
-            Join Chatroom
-          </button>}
-
           <button className="button" onClick={() => openPopup('create')}>
-            Create Chatroom
+            Teacher
           </button>
+
+          {
+          // LobbyCreated&&
+          <button className="button" onClick={() => openPopup('join')}>
+            Student
+          </button>}
 
         {isPopupOpen && (
         <div>
