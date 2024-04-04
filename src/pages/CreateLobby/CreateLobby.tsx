@@ -118,12 +118,12 @@ export function CreateLobby(props: CreateLobbyProps) {
         {/* <p style={{ fontSize: 25, color: '#527785', marginTop: 20 }}>
           Join Code
         </p> */}
-{/* 
+
         <div className={'box-container'} style={{ marginTop: 12, width: 285, height: 78, margin: 'auto' }}>
           <p style={{ fontSize: 36, color: '#383838' }}>
             {lobbyId}
           </p>
-        </div> */}
+        </div>
 
       </div>
 
