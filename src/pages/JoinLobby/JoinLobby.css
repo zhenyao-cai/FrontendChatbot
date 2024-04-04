@@ -1,148 +1,148 @@
 /* src/BlankScreen.css */
 .screen {
-    width: 100vw;
-    height: 100vh;
-    background-color: white;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .joinheader {
-    font-size: 30px;
-    margin: 10px;
-    margin-top: 100px; /* Adjusted to move the header higher up */
-    color: #527785;
-  }
-  
-  .content-box {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    margin-top: 20px; /* Adjusted to move the header higher up */
-    color: #527785;
-  }
-  
-  .joinbox {
-    background-color: #f0f0f0;
-    border-radius: 15px;
-    margin: 10px;
-    padding: 25px;
-    width: 200px;
-  }
-  
-  .joinbox p {
-    margin: 0;
-  }
-  
-  .joininput {
-    text-align: center;
-    font-weight: bold;
-    text-decoration: underline;
-    color: black;
-    width: 100%;
-    height: 100%;
-    border: none;
-    background-color: #f0f0f0;
-    font-size: 30px;
-    letter-spacing: 4px;
-  }
-  
-  .border-container {
-    border: 2px solid white; /* Add a border with a blue color (adjust as needed) */
-    border-radius: 10px; /* Add rounded corners */
-    padding: 10px; /* Add padding for spacing */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
-    text-align: center;
-    margin: 30px;
-  }
-  
-  .logo-container {
-    position: absolute;
-    top: 30px;
-    left: 30px; /* Adjusted to the top left corner */
-  }
-  
-  .logo {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .top-right-button {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    background-color: #eeeeee;
-    font-weight: bold;
-    color: #527785;
-    border: none;
-    padding: 12px 20px;
-    cursor: pointer;
-    border-radius: 10px;
-    font-size: 17px;
-  }
-  
-  button.top-right-button:hover {
-    background-color: #d3d3d3;
-  }
-  
-  .waiting-paragraph {
-    font-weight: bold;
-    font-size: 22px;
-    margin-top: 30px;
-    justify-self: center;
-    color: #527785;
-  }
-  
-  .members-paragraph {
-    font-weight: bold;
-    font-size: 22px;
-    margin-top: 20px;
-  }
-  
-  .boxes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .b {
-    background-color: #f0f0f0;
-    font-weight: bold;
-    border-radius: 15px;
-    margin: 25px;
-    padding: 10px;
-    width: 250px; /* Adjusted to make the boxes wider */
-    display: flex; /* Added display: flex to align content vertically */
-    align-items: center; /* Center content horizontally */
-  }
-  
-  .profile-icon {
-    width: 60px; /* Define width and height for the circular profile icon */
-    height: 60px;
-    background-color: #007bff; /* Example background color */
-    border-radius: 50%; /* Create a circular shape */
-    margin-bottom: 10px; /* Space between profile icon and box content */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .logo-icon {
-    width: 60px; /* Set both width and height to be the same for a circle */
-    height: 60px;
-    border-radius: 50%; /* Make sure the logo is displayed as a circle */
-  }
-  
-  .box-content {
-    text-align: left; /* Adjust text alignment to the left */
-    flex-grow: 1; /* Allow the text to take up available space */
-    margin: 10px;
-  }
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .lobby-info {
-    display: grid;
-  }
+.joinheader {
+  font-size: 30px;
+  margin: 10px;
+  margin-top: 100px; /* Adjusted to move the header higher up */
+  color: #527785;
+}
+
+.content-box {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+  margin-top: 20px; /* Adjusted to move the header higher up */
+  color: #527785;
+}
+
+.joinbox {
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  margin: 10px;
+  padding: 25px;
+  width: 200px;
+}
+
+.joinbox p {
+  margin: 0;
+}
+
+.joininput {
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+  color: black;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #f0f0f0;
+  font-size: 30px;
+  letter-spacing: 4px;
+}
+
+.border-container {
+  border: 2px solid white; /* Add a border with a blue color (adjust as needed) */
+  border-radius: 10px; /* Add rounded corners */
+  padding: 10px; /* Add padding for spacing */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
+  text-align: center;
+  margin: 30px;
+}
+
+.logo-container {
+  position: absolute;
+  top: 30px;
+  left: 30px; /* Adjusted to the top left corner */
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+}
+
+.top-right-button {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background-color: #eeeeee;
+  font-weight: bold;
+  color: #527785;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 17px;
+}
+
+button.top-right-button:hover {
+  background-color: #d3d3d3;
+}
+
+.waiting-paragraph {
+  font-weight: bold;
+  font-size: 22px;
+  margin-top: 30px;
+  justify-self: center;
+  color: #527785;
+}
+
+.members-paragraph {
+  font-weight: bold;
+  font-size: 22px;
+  margin-top: 20px;
+}
+
+.boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.b {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  border-radius: 15px;
+  margin: 25px;
+  padding: 10px;
+  width: 250px; /* Adjusted to make the boxes wider */
+  display: flex; /* Added display: flex to align content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+.profile-icon {
+  width: 60px; /* Define width and height for the circular profile icon */
+  height: 60px;
+  background-color: #007bff; /* Example background color */
+  border-radius: 50%; /* Create a circular shape */
+  margin-bottom: 10px; /* Space between profile icon and box content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-icon {
+  width: 60px; /* Set both width and height to be the same for a circle */
+  height: 60px;
+  border-radius: 50%; /* Make sure the logo is displayed as a circle */
+}
+
+.box-content {
+  text-align: left; /* Adjust text alignment to the left */
+  flex-grow: 1; /* Allow the text to take up available space */
+  margin: 10px;
+}
+
+.lobby-info {
+  display: grid;
+}
