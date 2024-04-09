@@ -17,8 +17,8 @@ interface LobbbyInformationProps {
 export function JoinLobby(props : JoinLobbyProps) {
   const [name,       setName]       = useState('Guest');
   const [code,       setCode]       = useState('');
-  const [disabled,   setDisabled]   = useState(false);
   const [lobbyState, setLobbyState] = useState('Waiting');
+  const [disabled, setDisabled] = useState(false);
   const [userList,   setUserList]   = useState<string[]>([]);
 
   // Initialize the state with x boxes when the component is mounted
@@ -27,57 +27,69 @@ export function JoinLobby(props : JoinLobbyProps) {
     const searchParams = new URLSearchParams(window.location.search);
     const nameFromURL = searchParams.get('name') || 'Guest';
 
-    const formattedName = nameFromURL.replace(/\b\w/g, match => match.toUpperCase());
-
+    // const formattedName = nameFromURL.replace(/\b\w/g, match => match.toUpperCase());
     // Set the name synchronously before initializing the boxes
-    setName(() => formattedName);
+    setName(nameFromURL);
   }, []);
 
   // useEffect(() => {
   //   if (lobbyState === "Waiting") {
   //     props.socket.emit('joinLobby', code)
   //   }
-
   //   const intervalId = setInterval(() => {
   //     if (lobbyState != 'Joined'){
   //       props.socket.emit('joinLobby', code);
   //       console.log("try join");
   //     }
   //   }, 3000);
-
   //   return () => {
   //     clearInterval(intervalId);
   //   };
   // }, [code, lobbyState, props.socket]);
 
+
+  // Get lobby code from server
   useEffect(() => {
-    // get lobbycode from server
     props.socket.emit('getLobbyCode');
-  
-    // Wait for lobbycode
-    props.socket.on('getLobbyCodeResponse', (guid) => {
-      console.log("getLobbyCodeResponse:", guid);
-      setCode(guid);
-      // Request to join the lobby
-      props.socket.emit('joinLobby', code);
-      console.log("try join:", code);
-    });
-
-    // Listen for the server's response
-    // If joined successfully, set state to 'joined'
-    props.socket.on('joinedLobby', (guid) => {
-      console.log("joinedLobby");
-      setLobbyState('Joined');
-      setDisabled(true);
-    });
-
+    console.log("getLobbyCode");
+    setLobbyState("getLobbyCode");
     // props.socket.on('lobbyError', (error) => {
     //   if (lobbyState != 'Joined'){
     //     console.error('Error joining lobby:', error);
     //     setLobbyState('Error');
     //   }
     // });
-  }, [props.socket, lobbyState]);
+  }, []);
+
+
+  // Wait for getLobbyCodeResponse event, then try to join lobby
+  useEffect(() => {
+    props.socket.on('getLobbyCodeResponse', (guid) => {
+      console.log("getLobbyCodeResponse: ", guid);
+      setCode(guid);
+    });
+  }, []);
+
+
+  // Emit joinLobby if name and code are valid.
+  useEffect(() => {
+    if (name != "Guest" && code != ""){
+      props.socket.emit('joinLobby', code, name);
+      console.log(name,"try to join Lobby:", code);
+      setLobbyState("joinLobby");
+    }
+  }, [code, name]);
+
+
+  // Wait for joinedLobby event. If joined successfully, set state to 'joined'
+  useEffect(() => {
+    props.socket.on('joinedLobby', (guid) => {
+      console.log("joinedLobby");
+      setLobbyState('Joined');
+      setDisabled(true);
+    });
+  }, []);
+
 
   // Submit user's code to server
   // const handleSubmit = (e: React.FormEvent) => {

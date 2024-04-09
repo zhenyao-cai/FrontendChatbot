@@ -8,15 +8,9 @@ interface JoinLobbyProps {
   socket : Socket;
 }
 
-interface LobbbyInformationProps {
-  users : string[];
-}
-
 export function Monitor(props : JoinLobbyProps) {
   const [name,       setName]       = useState('Guest');
   const [code,       setCode]       = useState('');
-  const [disabled,   setDisabled]   = useState(false);
-  const [lobbyState, setLobbyState] = useState('Not Joined');
   const [userList,   setUserList]   = useState<string[]>([]);
 
   // Initialize the state with x boxes when the component is mounted
@@ -31,11 +25,16 @@ export function Monitor(props : JoinLobbyProps) {
     setName(() => formattedName);
   }, []);
 
+
+  // Ask for Lobby Code
   useEffect(() => {
     props.socket.emit('getLobbyCode');
     console.log("getLobbyCode");
-  
-    // Wait for lobbycode
+  },[]);
+
+
+  // Wait for lobby Code
+  useEffect(() => {
     props.socket.on('getLobbyCodeResponse', (guid) => {
       console.log("getLobbyCodeResponse:", guid);
       setCode(guid);
@@ -81,29 +80,32 @@ export function Monitor(props : JoinLobbyProps) {
     };
   }, [code, name]);
 
+  
+  // getUserListOfLobby
   useEffect(() => {
     props.socket.emit('getUserListOfLobby', code)
 
     const intervalId = setInterval(() => {
       props.socket.emit('getUserListOfLobby', code);
-      console.log(userList);
-    }, 3000);
+    }, 5000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [code, lobbyState, props.socket]);
+  }, [code, props.socket]);
 
+
+  // userListOfLobbyResponse
   useEffect(() => {
     props.socket.on('userListOfLobbyResponse', (userListObj: {userList: string[]}) => {
       setUserList(userListObj.userList);
+      console.log(userList);
     })
-
-    props.socket.on('userListOfLobbyResponseError', () => {});
+    // props.socket.on('userListOfLobbyResponseError', () => {});
   }, []);
 
   return (
-    //three main sections: screen, content box, members box
+    // three main sections: screen, content box, members box
     <div className="screen">
       <div>
         <h1 className="joinheader">Monitor</h1>
@@ -117,17 +119,8 @@ export function Monitor(props : JoinLobbyProps) {
         <button className="top-right-button">Generate Chatroom</button>
       </a>
 
-      {/* {(lobbyState === 'Waiting') && 
-      <p className="waiting-paragraph">
-        Attempting to join lobby...
-      </p>} */}
-      
       {<LobbyInformation users={userList}/>}
 
-      {/* {(lobbyState === 'Error') && 
-      <p className="waiting-paragraph">
-        Error joining room. Please try again.
-      </p>} */}
     </div>
   );
 }
@@ -137,6 +130,10 @@ interface UserBoxProps {
   index : number;
 }
 
+interface LobbbyInformationProps {
+  users : string[];
+}
+
 function LobbyInformation(props : LobbbyInformationProps) {
   const [boxes, setBoxes] : any[] = useState([]);
   const [index, setIndex] = useState(0);
@@ -144,7 +141,7 @@ function LobbyInformation(props : LobbbyInformationProps) {
   useEffect(() => {
     let initialBoxes = [];
     for (let i = 0; i < props.users.length; i++) {
-      initialBoxes.push(<UserBox content={props.users[i]} index={i}/>);
+      initialBoxes.push(<UserBox key={i} content={props.users[i]} index={i} />);
     }
 
     setBoxes(initialBoxes);
@@ -154,10 +151,16 @@ function LobbyInformation(props : LobbbyInformationProps) {
   const UserBox = (props : UserBoxProps) => {
     return (
       <div className="b" key={props.index}>
+
+        {/* icon of user */}
         <div className="profile-icon">
           <img src="logo.jpg" alt="Logo" className="logo-icon" />{' '}
         </div>
-        <div className="box-content">{props.content}</div>
+
+        {/* name of user */}
+        <div className="box-content">
+          {props.content}
+        </div>
       </div>
     )
   }
