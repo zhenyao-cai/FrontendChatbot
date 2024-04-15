@@ -52,9 +52,11 @@
   }
   
   .border-container {
-    border: 2px solid white; /* Add a border with a blue color (adjust as needed) */
-    border-radius: 10px; /* Add rounded corners */
-    padding: 10px; /* Add padding for spacing */
+    width: 150px;
+    height: 240px;
+    border: 0px solid white; /* Add a border with a blue color (adjust as needed) */
+    border-radius: 20px; /* Add rounded corners */
+    padding: 0px; /* Add padding for spacing */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
     text-align: center;
     margin: 30px;
@@ -99,12 +101,13 @@
   
   .members-paragraph {
     font-weight: bold;
-    font-size: 22px;
-    margin-top: 20px;
+    font-size: 18px;
+    margin-top: 5px;
   }
   
   .boxes {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
   }
@@ -112,12 +115,16 @@
   .b {
     background-color: #f0f0f0;
     font-weight: bold;
-    border-radius: 15px;
-    margin: 25px;
-    padding: 10px;
-    width: 250px; /* Adjusted to make the boxes wider */
+    border-radius: 30px;
+    margin: 5px;
+    padding: 2px;
+    /* width: 100px; Adjusted to make the boxes wider */
     display: flex; /* Added display: flex to align content vertically */
     align-items: center; /* Center content horizontally */
+    background-color: rgb(236, 231, 224);
+    /* margin: 0 auto; */
+    margin-left: 30px;
+    width: 50%; 
   }
   
   .profile-icon {
@@ -138,11 +145,13 @@
   }
   
   .box-content {
+    font-size: 15px;
     text-align: left; /* Adjust text alignment to the left */
     flex-grow: 1; /* Allow the text to take up available space */
-    margin: 10px;
+    /* margin: 10px; */
   }
 
   .lobby-info {
-    display: grid;
+    display: flex;
+    flex-direction: column;
   }

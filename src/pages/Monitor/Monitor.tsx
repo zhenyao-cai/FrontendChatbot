@@ -41,25 +41,6 @@ export function Monitor(props : JoinLobbyProps) {
     });
   },[]);
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  
-  //   setLobbyState('Waiting');
-  
-  //   // Emit a Socket.IO event to join the lobby
-  //   props.socket.emit('joinLobby', code, name);
-  
-  //   // Listen for the server's response
-  //   props.socket.on('joinedLobby', (guid) => {
-  //     setLobbyState('Joined');
-  //     setDisabled(true);
-  //   });
-  
-  //   props.socket.on('lobbyError', (error) => {
-  //     console.error('Error joining lobby:', error);
-  //     setLobbyState('Error');
-  //   });
-  // };
 
   useEffect(() => {
     const handleChatStarted = () => {
@@ -101,15 +82,14 @@ export function Monitor(props : JoinLobbyProps) {
       setUserList(userListObj.userList);
       console.log(userList);
     })
-    // props.socket.on('userListOfLobbyResponseError', () => {});
   }, []);
 
   return (
     // three main sections: screen, content box, members box
     <div className="screen">
-      <div>
+      {/* <div>
         <h1 className="joinheader">Monitor</h1>
-      </div>
+      </div> */}
 
       <div className="logo-container">
         <img src="logo.jpg" alt="Logo" className="logo" />
@@ -153,9 +133,9 @@ function LobbyInformation(props : LobbbyInformationProps) {
       <div className="b" key={props.index}>
 
         {/* icon of user */}
-        <div className="profile-icon">
+        {/* <div className="profile-icon">
           <img src="logo.jpg" alt="Logo" className="logo-icon" />{' '}
-        </div>
+        </div> */}
 
         {/* name of user */}
         <div className="box-content">
@@ -166,15 +146,20 @@ function LobbyInformation(props : LobbbyInformationProps) {
   }
 
   return (
-    <div className='lobby-info'>
+    <div>
 
-      <p className="waiting-paragraph">
-        Waiting for students to join . . .
-      </p>
-      
-      <div className="border-container">
-        <p className="members-paragraph">Members</p>
-        <div className="boxes">{boxes}</div>
+      {/* <p className="waiting-paragraph">
+          Waiting for students to join . . .
+      </p> */}
+
+      <div className='lobby-info'>
+        <div className="border-container">
+          <p className="members-paragraph">Code:</p>
+
+          <div className="boxes">
+            {boxes}
+          </div>
+        </div>
       </div>
     </div>
   );
