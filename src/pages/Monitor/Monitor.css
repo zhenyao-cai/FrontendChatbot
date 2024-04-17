@@ -1,11 +1,11 @@
 /* src/BlankScreen.css */
-.screen {
+.main-container {
     width: 100vw;
     height: 100vh;
     background-color: white;
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
   }
   
@@ -58,6 +58,7 @@
     border-radius: 20px; /* Add rounded corners */
     padding: 0px; /* Add padding for spacing */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
+    background-color: white;
     text-align: center;
     margin: 30px;
   }
@@ -69,21 +70,21 @@
   }
   
   .logo {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
   }
   
   .top-right-button {
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 20px;
+    right: 280px;
     background-color: #eeeeee;
     font-weight: bold;
     color: #527785;
     border: none;
     padding: 12px 20px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 20px;
     font-size: 17px;
   }
   
@@ -153,5 +154,24 @@
 
   .lobby-info {
     display: flex;
+    flex-direction: column;
+  }
+
+  .left {
+    flex: 5; 
+    height: 100%;
+    background-color: rgb(244, 243, 240);
+    padding-top: 200px;
+    padding-left: 50px;
+  }
+
+  .right {
+    flex: 1;
+    height: 100%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
+    /* min-width: 300px; */
+  }
+
+  .student-list{
     flex-direction: column;
   }

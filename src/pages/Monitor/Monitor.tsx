@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
 
+import {RightSideBar} from './RightSideBar';
 import './Monitor.css';
 
 interface JoinLobbyProps {
@@ -12,6 +13,7 @@ export function Monitor(props : JoinLobbyProps) {
   const [name,       setName]       = useState('Guest');
   const [code,       setCode]       = useState('');
   const [userList,   setUserList]   = useState<string[]>([]);
+  const [numStudent, setNumStudent] = useState(0);
 
   // Initialize the state with x boxes when the component is mounted
   useEffect(() => {
@@ -79,6 +81,7 @@ export function Monitor(props : JoinLobbyProps) {
   // userListOfLobbyResponse
   useEffect(() => {
     props.socket.on('userListOfLobbyResponse', (userListObj: {userList: string[]}) => {
+      setNumStudent(userListObj.userList.length)
       setUserList(userListObj.userList);
       console.log(userList);
     })
@@ -86,20 +89,25 @@ export function Monitor(props : JoinLobbyProps) {
 
   return (
     // three main sections: screen, content box, members box
-    <div className="screen">
-      {/* <div>
-        <h1 className="joinheader">Monitor</h1>
-      </div> */}
+    <div className="main-container">
 
       <div className="logo-container">
         <img src="logo.jpg" alt="Logo" className="logo" />
       </div>
 
       <a href="home">
-        <button className="top-right-button">Generate Chatroom</button>
+        <button className="top-right-button">Generate Chatrooms</button>
       </a>
 
-      {<LobbyInformation users={userList}/>}
+      <div className='left'>
+        {<LobbyInformation users={userList}/>}
+      </div>
+      
+      {/* right side bar, display number of students */}
+      <div className='right'>
+        <RightSideBar num_student={numStudent}/>
+        {<UserList users={userList}/>}
+      </div>
 
     </div>
   );
@@ -146,20 +154,53 @@ function LobbyInformation(props : LobbbyInformationProps) {
   }
 
   return (
-    <div>
+    <div className='lobby-info'>
+      <div className="border-container">
+        <p className="members-paragraph">Code:</p>
 
-      {/* <p className="waiting-paragraph">
-          Waiting for students to join . . .
-      </p> */}
-
-      <div className='lobby-info'>
-        <div className="border-container">
-          <p className="members-paragraph">Code:</p>
-
-          <div className="boxes">
-            {boxes}
-          </div>
+        <div className="boxes">
+          {boxes}
         </div>
+
+      </div>
+    </div>
+  );
+}
+
+function UserList(props : LobbbyInformationProps) {
+  const [boxes, setBoxes] : any[] = useState([]);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    let initialBoxes = [];
+    for (let i = 0; i < props.users.length; i++) {
+      initialBoxes.push(<UserBox key={i} content={props.users[i]} index={i} />);
+    }
+
+    setBoxes(initialBoxes);
+    setIndex(props.users.length-1);
+  }, [props.users]);
+
+  const UserBox = (props : UserBoxProps) => {
+    return (
+      <div key={props.index}>
+
+        {/* name of user */}
+        <div className="box-content">
+          {props.content}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className='lobby-info'>
+      <div className="user-list">
+
+        <div className="boxes">
+          {boxes}
+        </div>
+
       </div>
     </div>
   );

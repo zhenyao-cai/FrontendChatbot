@@ -68,9 +68,7 @@ export function Chatroom(props: ChatroomProps) {
   }, []);
 
   return (
-    <div style={{
-      backgroundColor: '#EEEDEA'
-    }}>
+    <div style={{ backgroundColor: '#EEEDEA' }}>
       
       <div className='page-header'>
         <p>{'EduChatbot'}</p>
