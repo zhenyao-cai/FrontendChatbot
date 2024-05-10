@@ -38,6 +38,7 @@ export function LobbySettings(props: LobbySettingsProps) {
     <div className="chatroom-setting-container">
       <p className="chatroom-setting-heading">Chatroom Settings</p>
       <hr className="chatroom-setting-hr" />
+      
       <div className="chatroom-setting-input-container">
         <p className="chatroom-setting-input-label">Chatroom Name</p>
         <input
@@ -46,6 +47,7 @@ export function LobbySettings(props: LobbySettingsProps) {
           type="text"
         />
       </div>
+
       <div className="chatroom-setting-input-container">
         <p className="chatroom-setting-input-label">Topic</p>
         <input
@@ -54,6 +56,7 @@ export function LobbySettings(props: LobbySettingsProps) {
           type="text"
         />
       </div>
+
       <div className="chatroom-setting-timer-container">
         <p className="chatroom-setting-timer-label">Chat Timer</p>
         <div className="chatroom-setting-timer-input">
@@ -65,6 +68,7 @@ export function LobbySettings(props: LobbySettingsProps) {
           <p className="chatroom-setting-timer-input-box-p">minutes</p>
         </div>
       </div>
+
       <div className="chatroom-setting-participants-container">
         <p className="chatroom-setting-participants-label">
           Number of Participants: {props.userCount}

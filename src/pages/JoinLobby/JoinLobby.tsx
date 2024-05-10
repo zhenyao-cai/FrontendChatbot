@@ -68,23 +68,32 @@ export function JoinLobby(props : JoinLobbyProps) {
 
 
   // start chat
+  // useEffect(() => {
+  //   const handleChatStarted = () => {
+  //     const encodedId = encodeURIComponent(code);
+  //     window.location.href = `chatroom?name=${name}&id=${encodedId}`;
+  
+  //     // Turn off the event listener after it has been used once
+  //     props.socket.off('chatStarted', handleChatStarted);
+  //   };
+  
+  //   // Set up event listeners
+  //   props.socket.on('chatStarted', handleChatStarted);
+  
+  //   // Clean up event listeners when the component unmounts
+  //   return () => {
+  //     // Turn off event listeners
+  //     props.socket.off('chatStarted', handleChatStarted);
+  //   };
+  // }, [code, name]);
+
   useEffect(() => {
-    const handleChatStarted = () => {
+    props.socket.on('assignedChatroom', (guid) => {
+      console.log("assignedChatroom: ", guid);
+      setCode(guid);
       const encodedId = encodeURIComponent(code);
       window.location.href = `chatroom?name=${name}&id=${encodedId}`;
-  
-      // Turn off the event listener after it has been used once
-      props.socket.off('chatStarted', handleChatStarted);
-    };
-  
-    // Set up event listeners
-    props.socket.on('chatStarted', handleChatStarted);
-  
-    // Clean up event listeners when the component unmounts
-    return () => {
-      // Turn off event listeners
-      props.socket.off('chatStarted', handleChatStarted);
-    };
+    });
   }, [code, name]);
 
 
