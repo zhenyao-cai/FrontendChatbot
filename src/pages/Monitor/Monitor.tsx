@@ -87,6 +87,11 @@ export function Monitor(props : JoinLobbyProps) {
     })
   }, []);
 
+  const generateChatrooms = () => {
+    props.socket.emit('createChatrooms');
+    console.log("emit createChatrooms")
+  };
+
   return (
     // three main sections: screen, content box, members box
     <div className="main-container">
@@ -95,9 +100,9 @@ export function Monitor(props : JoinLobbyProps) {
         <img src="logo.jpg" alt="Logo" className="logo" />
       </div>
 
-      <a href="home">
-        <button className="top-right-button">Generate Chatrooms</button>
-      </a>
+      <button className="top-right-button" onClick={generateChatrooms}>
+        Generate Chatrooms
+      </button>
 
       <div className='left'>
         {<LobbyInformation users={userList}/>}
