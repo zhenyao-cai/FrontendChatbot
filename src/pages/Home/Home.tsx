@@ -1,10 +1,15 @@
 import './Home.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+
+const socket = io(); 
 
 export function Home() {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [name, setName] = useState('');
   const [actionType, setActionType] = useState<'join' | 'create' | undefined>();
+  const [messages, setMessages] = useState([]); 
+
 
   const openPopup = (type: 'join' | 'create') => {
     setActionType(type);
