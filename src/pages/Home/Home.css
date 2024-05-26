@@ -106,6 +106,7 @@
   }
   
   .popup button {
+    margin: 20px;
     font-size: 1rem;
     font-weight: bold;
     padding: 8px;
