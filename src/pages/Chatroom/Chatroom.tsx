@@ -22,6 +22,7 @@ interface ChatroomProps {
 
 export function Chatroom(props: ChatroomProps) {
   const [code,           setCode]           = useState('');
+  const [lobbyid,        setlobbyid]        = useState('');
   const [chatName,       setChatName]       = useState('');
   const [chatTime,       setChatTime]       = useState(1);
   const [chatTopic,      setChatTopic]      = useState('');
@@ -36,6 +37,7 @@ export function Chatroom(props: ChatroomProps) {
     const searchParams = new URLSearchParams(window.location.search);
     const idFromURL = searchParams.get('id') || '....'; // default id: '....'
     const nameFromURL = searchParams.get('name');
+    setlobbyid(searchParams.get('lobbyid') || '....');
 
     if (nameFromURL !== null) {
       const decodedName = decodeURIComponent(nameFromURL);
@@ -96,6 +98,7 @@ export function Chatroom(props: ChatroomProps) {
           <ChatBox 
             socket            ={props.socket} 
             code              ={code} 
+            lobbyid           ={lobbyid}
             setMasterMessages ={setMasterMessages} 
             disabled          ={disabled}
             inactivity        ={inactivity}

@@ -14,7 +14,7 @@ export function Monitor(props : JoinLobbyProps) {
   const [code,       setCode]       = useState('');
   const [userList,   setUserList]   = useState<string[]>([]);
   const [numStudent, setNumStudent] = useState(0);
-  
+
 
   // Initialize the state with x boxes when the component is mounted
   useEffect(() => {

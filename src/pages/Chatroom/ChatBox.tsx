@@ -6,6 +6,7 @@ type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 
 interface ChatBoxProps {
     code: string;
+    lobbyid: string;
     socket: Socket;
     setMasterMessages : StateSetter<JSX.Element[]>
     disabled : boolean;
@@ -164,7 +165,7 @@ export function ChatBox(props: ChatBoxProps) {
         };
   
         console.log(` LOBBY ID: ${props.code}, sending ${input}`);
-        props.socket.emit('lobbyMessage', props.code, messageData);
+        props.socket.emit('chatMessage', props.lobbyid, props.code, messageData);
         setInput('');
       };
   

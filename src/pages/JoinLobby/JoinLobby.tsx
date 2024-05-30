@@ -89,9 +89,9 @@ export function JoinLobby(props : JoinLobbyProps) {
   useEffect(() => {
     props.socket.on('joinedChatroom', (guid) => {
       console.log("joinedChatroom: ", guid);
-      setCode(guid);
+      //setCode(guid);
       // const encodedId = encodeURIComponent(code);
-      window.location.href = `chatroom?name=${name}&id=${guid}`;
+      window.location.href = `chatroom?name=${name}&id=${guid}&lobbyid=${code}`;
     });
   }, [code, name]);
 
