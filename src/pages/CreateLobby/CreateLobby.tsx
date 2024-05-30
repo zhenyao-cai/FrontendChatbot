@@ -52,7 +52,6 @@ export function CreateLobby(props: CreateLobbyProps) {
   }, [props.socket]);
 
   const handleChatroomStart = () => {
-
     let lobbyData = {
       botname: botName,
       chatLength: chatTime,
@@ -89,10 +88,8 @@ export function CreateLobby(props: CreateLobbyProps) {
     props.socket.on('userListOfLobbyResponseError', () => {});
   }, []);
 
-
   return (
     <div>
-
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <h1 className="joinheader">CREATE CHATROOM</h1>
       </div>
@@ -107,33 +104,25 @@ export function CreateLobby(props: CreateLobbyProps) {
       </button>
 
       <div className={'main-header'}>
-
         <p style={{ fontSize: 25, color: '#527785', marginTop: 20 }}>
           Join Code
         </p>
-
         <div className={'box-container'} style={{ marginTop: 12, width: 285, height: 78, margin: 'auto' }}>
           <p style={{ fontSize: 36, color: '#383838' }}>
             {lobbyId}
           </p>
         </div>
-
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: 40 }}>
-
-        {/* import BotSettings.tsx */}
         <BotSettings setBotName={setBotName} 
                      setAssertiveness={setAssertiveness}
         />
-
-        {/* import LobbySettings.tsx */}
         <LobbySettings setChatTime={setChatTime} 
-                       setTopic   ={setTopic} 
+                       setTopic={setTopic} 
                        setChatName={setChatName} 
-                       userCount  ={userCount}
+                       userCount={userCount}
         />
-
       </div>
     </div>
   );
