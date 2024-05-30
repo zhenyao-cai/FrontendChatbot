@@ -14,6 +14,7 @@ export function Monitor(props : JoinLobbyProps) {
   const [code,       setCode]       = useState('');
   const [userList,   setUserList]   = useState<string[]>([]);
   const [numStudent, setNumStudent] = useState(0);
+  
 
   // Initialize the state with x boxes when the component is mounted
   useEffect(() => {
@@ -70,7 +71,7 @@ export function Monitor(props : JoinLobbyProps) {
 
     const intervalId = setInterval(() => {
       props.socket.emit('getUserListOfLobby', code);
-    }, 5000);
+    }, 1000);
 
     return () => {
       clearInterval(intervalId);
@@ -88,12 +89,11 @@ export function Monitor(props : JoinLobbyProps) {
   }, []);
 
   const generateChatrooms = () => {
-    props.socket.emit('createChatrooms');
+    props.socket.emit('createChatrooms', code);
     console.log("emit createChatrooms")
   };
 
   return (
-    // three main sections: screen, content box, members box
     <div className="main-container">
 
       <div className="logo-container">

@@ -66,7 +66,6 @@ export function JoinLobby(props : JoinLobbyProps) {
     });
   }, []);
 
-
   // start chat
   // useEffect(() => {
   //   const handleChatStarted = () => {
@@ -88,11 +87,11 @@ export function JoinLobby(props : JoinLobbyProps) {
   // }, [code, name]);
 
   useEffect(() => {
-    props.socket.on('assignedChatroom', (guid) => {
-      console.log("assignedChatroom: ", guid);
+    props.socket.on('joinedChatroom', (guid) => {
+      console.log("joinedChatroom: ", guid);
       setCode(guid);
-      const encodedId = encodeURIComponent(code);
-      window.location.href = `chatroom?name=${name}&id=${encodedId}`;
+      // const encodedId = encodeURIComponent(code);
+      window.location.href = `chatroom?name=${name}&id=${guid}`;
     });
   }, [code, name]);
 
