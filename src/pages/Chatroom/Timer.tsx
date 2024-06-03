@@ -16,12 +16,9 @@ interface TimerProps {
 }
 
 export function Timer(props: TimerProps) {
-    const [seconds, setSeconds] = useState<number>(60 * -1);
+    const [seconds, setSeconds] = useState<number>(60 * props.time);
     const [inactivitySeconds, setInactivitySeconds] = useState(0);
 
-    useEffect(() => {
-        setSeconds(60 * props.time);
-    }, [props.time]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -60,7 +57,10 @@ export function Timer(props: TimerProps) {
     }, [props.socket, props]);
 
     useEffect(() => {
-        if (seconds === 60) {
+        const totalSeconds = props.time * 60; // Convert minutes to seconds
+        const oneFourthTime = totalSeconds / 4;
+    
+        if (seconds <= oneFourthTime && seconds > 0) {
             props.socket.emit('chatStartConclusionPhase', props.code, 1);
         }
     }, [seconds, props]);

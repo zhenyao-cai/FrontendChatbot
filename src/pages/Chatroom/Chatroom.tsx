@@ -23,7 +23,7 @@ interface ChatroomProps {
 export function Chatroom(props: ChatroomProps) {
   const [code,           setCode]           = useState('');
   const [chatName,       setChatName]       = useState('');
-  const [chatTime,       setChatTime]       = useState(1);
+  const [chatTime,       setChatTime]       = useState(0);
   const [chatTopic,      setChatTopic]      = useState('');
   const [name,           setName]           = useState('Guest');
   const [masterMessages, setMasterMessages] = useState<JSX.Element[]>([]);
