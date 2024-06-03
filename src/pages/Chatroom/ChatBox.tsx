@@ -69,7 +69,7 @@ export function ChatBox(props: ChatBoxProps) {
     useEffect(() => {
       if (props.inactivity === 'inactive') {
         props.setInactivity('message');
-        props.socket.emit('lobbyInactivity', props.code);
+        props.socket.emit('lobbyInactivity', props.lobbyid, props.code);
       }
     });
   

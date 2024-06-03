@@ -14,7 +14,7 @@ export function Monitor(props : JoinLobbyProps) {
   const [code,       setCode]       = useState('');
   const [userList,   setUserList]   = useState<string[]>([]);
   const [numStudent, setNumStudent] = useState(0);
-
+  
 
   // Initialize the state with x boxes when the component is mounted
   useEffect(() => {
@@ -67,7 +67,7 @@ export function Monitor(props : JoinLobbyProps) {
   
   // getUserListOfLobby
   useEffect(() => {
-    props.socket.emit('getUserListOfLobby', code)
+    props.socket.emit('getUserListOfLobby', code);
 
     const intervalId = setInterval(() => {
       props.socket.emit('getUserListOfLobby', code);
@@ -82,7 +82,7 @@ export function Monitor(props : JoinLobbyProps) {
   // userListOfLobbyResponse
   useEffect(() => {
     props.socket.on('userListOfLobbyResponse', (userListObj: {userList: string[]}) => {
-      setNumStudent(userListObj.userList.length)
+      setNumStudent(userListObj.userList.length);
       setUserList(userListObj.userList);
       console.log(userList);
     })
@@ -90,7 +90,7 @@ export function Monitor(props : JoinLobbyProps) {
 
   const generateChatrooms = () => {
     props.socket.emit('createChatrooms', code);
-    console.log("emit createChatrooms")
+    console.log("Emit createChatrooms");
   };
 
   return (
@@ -129,7 +129,7 @@ interface LobbbyInformationProps {
 
 function LobbyInformation(props : LobbbyInformationProps) {
   const [boxes, setBoxes] : any[] = useState([]);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex]         = useState(0);
 
   useEffect(() => {
     let initialBoxes = [];
@@ -174,7 +174,7 @@ function LobbyInformation(props : LobbbyInformationProps) {
 
 function UserList(props : LobbbyInformationProps) {
   const [boxes, setBoxes] : any[] = useState([]);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex]         = useState(0);
 
   useEffect(() => {
     let initialBoxes = [];

@@ -53,7 +53,7 @@ export function Chatroom(props: ChatroomProps) {
   useEffect(() => {
     props.socket.on('joinedChatroom', (guid : any) => {
       console.log("Recieved Ping");
-      props.socket.emit('getChatData', code);
+      props.socket.emit('getChatData', lobbyid, code);
       console.log(code);
       console.log("sent Ping");
     });
@@ -85,6 +85,7 @@ export function Chatroom(props: ChatroomProps) {
             time          ={chatTime} 
             socket        ={props.socket} 
             code          ={code} 
+            lobbyid       ={lobbyid}
             name          ={name} 
             messages      ={masterMessages}
             setDisabled   ={setDisabled}

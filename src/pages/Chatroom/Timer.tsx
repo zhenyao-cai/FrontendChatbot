@@ -10,6 +10,7 @@ type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 interface TimerProps { // interface for timer
     time : number;  // time unit: minute
     socket : Socket;
+    lobbyid : String;
     code : String;
     setDisabled : StateSetter<boolean>;
     inactivity : string;
@@ -58,7 +59,7 @@ export function Timer(props : TimerProps) {
   
     useEffect(() => {
       if (seconds === 60) {
-        props.socket.emit('chatStartConclusionPhase', props.code, 1);
+        props.socket.emit('chatStartConclusionPhase', props.lobbyid, props.code, 1);
       }
     });
   
