@@ -11,6 +11,7 @@ interface SideBarProps {
     time: number;
     socket: Socket;
     code: String;
+    lobbyid : String;
     name : String;
     messages : JSX.Element[];
     setDisabled : StateSetter<boolean>;
@@ -82,6 +83,7 @@ export function SideBar(props : SideBarProps) {
             time={time} 
             socket={props.socket} 
             code={props.code} 
+            lobbyid={props.lobbyid} 
             setDisabled={props.setDisabled}
             inactivity={props.inactivity}
             setInactivity={props.setInactivity}/>

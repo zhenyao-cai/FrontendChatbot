@@ -144,5 +144,6 @@ button.top-right-button:hover {
 }
 
 .lobby-info {
-  display: grid;
+  display: flex;
+  flex-direction: column;
 }

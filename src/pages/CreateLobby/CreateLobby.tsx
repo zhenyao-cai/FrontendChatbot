@@ -13,14 +13,14 @@ interface UserListLobby {
 }
 
 export function CreateLobby(props: CreateLobbyProps) {
-  const [name,      setName] = useState('');
-  const [lobbyId,   setLobbyId] = useState('. . . .');
-  const [chatTime,  setChatTime] = useState(10);
-  const [botName,   setBotName] = useState('ChatZot');
+  const [name,          setName]          = useState('');
+  const [lobbyId,       setLobbyId]       = useState('. . . .');
+  const [chatTime,      setChatTime]      = useState(10);
+  const [botName,       setBotName]       = useState('ChatZot');
   const [assertiveness, setAssertiveness] = useState(2);
-  const [topic,     setTopic] = useState('');
-  const [chatName,  setChatName] = useState('Discussion');
-  const [userCount, setUserCount] = useState(1);
+  const [topic,         setTopic]         = useState('');
+  const [chatName,      setChatName]      = useState('Discussion');
+  const [userCount,     setUserCount]     = useState(1);
 
   useEffect(() => {
     // Retrieve the name parameter from the URL
@@ -33,6 +33,7 @@ export function CreateLobby(props: CreateLobbyProps) {
     setName(formattedName);
   }, [setName]);
 
+  // emit create lobby request
   useEffect(() => {
     if (name) {
       props.socket.emit('createLobby', name);
@@ -40,10 +41,12 @@ export function CreateLobby(props: CreateLobbyProps) {
   }, [name, props.socket]);
 
   useEffect(() => {
+    // Set lobbyId
     const handleLobbyCreated = (newLobbyId: string) => {
       setLobbyId(newLobbyId);
     };
 
+    // listen to server response
     props.socket.on('lobbyCreated', handleLobbyCreated);
 
     return () => {
@@ -51,6 +54,7 @@ export function CreateLobby(props: CreateLobbyProps) {
     };
   }, [props.socket]);
 
+  // finish setting, go to monitor page
   const handleChatroomStart = () => {
     let lobbyData = {
       botname: botName,
@@ -59,15 +63,18 @@ export function CreateLobby(props: CreateLobbyProps) {
       topic: topic,
       chatName: chatName
     }
+
     // send bot settings thru socket
     props.socket.emit('updateBotSettings', lobbyId, lobbyData);
 
     if (lobbyId !== '. . . .') {
       const encodedId = encodeURIComponent(lobbyId);
-      window.location.href = `chatroom?name=${name}&id=${encodedId}`; // jump to chatroom page
+      // window.location.href = `chatroom?name=${name}&id=${encodedId}`; // jump to chatroom page
+      window.location.href = `monitor`; // jump to monitor page
     }
   };
 
+  // get user lists through lobbyId
   useEffect(() => {
     props.socket.emit('getUserListOfLobby', lobbyId);
 
@@ -98,9 +105,9 @@ export function CreateLobby(props: CreateLobbyProps) {
         <img src="logo.jpg" alt="Logo" className="logo" />
       </div>
 
-      {/* Start Chat Botton */}
+      {/* Finish setting Botton */}
       <button onClick={handleChatroomStart} className="top-right-buttoon">
-        Start Chat
+        Finish
       </button>
 
       <div className={'main-header'}>
@@ -115,12 +122,12 @@ export function CreateLobby(props: CreateLobbyProps) {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: 40 }}>
-        <BotSettings setBotName={setBotName} 
+        <BotSettings setBotName={setBotName}
                      setAssertiveness={setAssertiveness}
         />
-        <LobbySettings setChatTime={setChatTime} 
-                       setTopic={setTopic} 
-                       setChatName={setChatName} 
+        <LobbySettings setChatTime={setChatTime}
+                       setTopic={setTopic}
+                       setChatName={setChatName}
                        userCount={userCount}
         />
       </div>

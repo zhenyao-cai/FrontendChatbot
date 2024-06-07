@@ -22,6 +22,7 @@ interface ChatroomProps {
 
 export function Chatroom(props: ChatroomProps) {
   const [code,           setCode]           = useState('');
+  const [lobbyid,        setlobbyid]        = useState('');
   const [chatName,       setChatName]       = useState('');
   const [chatTime,       setChatTime]       = useState(0);
   const [chatTopic,      setChatTopic]      = useState('');
@@ -36,6 +37,7 @@ export function Chatroom(props: ChatroomProps) {
     const searchParams = new URLSearchParams(window.location.search);
     const idFromURL = searchParams.get('id') || '....'; // default id: '....'
     const nameFromURL = searchParams.get('name');
+    setlobbyid(searchParams.get('lobbyid') || '....');
 
     if (nameFromURL !== null) {
       const decodedName = decodeURIComponent(nameFromURL);
@@ -51,7 +53,7 @@ export function Chatroom(props: ChatroomProps) {
   useEffect(() => {
     props.socket.on('joinedChatroom', (guid : any) => {
       console.log("Recieved Ping");
-      props.socket.emit('getChatData', code);
+      props.socket.emit('getChatData', lobbyid, code);
       console.log(code);
       console.log("sent Ping");
     });
@@ -68,9 +70,7 @@ export function Chatroom(props: ChatroomProps) {
   }, []);
 
   return (
-    <div style={{
-      backgroundColor: '#EEEDEA'
-    }}>
+    <div style={{ backgroundColor: '#EEEDEA' }}>
       
       <div className='page-header'>
         <p>{'EduChatbot'}</p>
@@ -85,6 +85,7 @@ export function Chatroom(props: ChatroomProps) {
             time          ={chatTime} 
             socket        ={props.socket} 
             code          ={code} 
+            lobbyid       ={lobbyid}
             name          ={name} 
             messages      ={masterMessages}
             setDisabled   ={setDisabled}
@@ -98,6 +99,7 @@ export function Chatroom(props: ChatroomProps) {
           <ChatBox 
             socket            ={props.socket} 
             code              ={code} 
+            lobbyid           ={lobbyid}
             setMasterMessages ={setMasterMessages} 
             disabled          ={disabled}
             inactivity        ={inactivity}

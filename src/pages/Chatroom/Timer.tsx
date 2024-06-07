@@ -59,7 +59,7 @@ export function Timer(props: TimerProps) {
     useEffect(() => {
         const totalSeconds = props.time * 60; // Convert minutes to seconds
         const oneFourthTime = totalSeconds / 4;
-    
+
         if (seconds <= oneFourthTime && seconds > 0) {
             props.socket.emit('chatStartConclusionPhase', props.code, 1);
         }
@@ -94,7 +94,7 @@ export function Timer(props: TimerProps) {
         if (minutes < 2) {check3 = <IoIosCheckmarkCircle />;}
 
         return(
-            <div>        
+            <div>
                 {check1}
                 {arrow1}
                 {check2}
@@ -109,7 +109,7 @@ export function Timer(props: TimerProps) {
             <p style={{ margin: '8px 0'}}>{formatTime(seconds)}</p>
             <p style={{ fontSize: '42px', color:"#527785"}}>{checkMark(seconds)}</p>
             <p style={{ fontSize: '10px', color:"#527785"}}>
-                Orientation &nbsp; &nbsp; &nbsp; 
+                Orientation &nbsp; &nbsp; &nbsp;
                 Share Opinions &nbsp; &nbsp; &nbsp;
                 Conclude
             </p>

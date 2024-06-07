@@ -6,6 +6,7 @@ type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 
 interface ChatBoxProps {
     code: string;
+    lobbyid: string;
     socket: Socket;
     setMasterMessages: StateSetter<JSX.Element[]>;
     disabled: boolean;
@@ -48,10 +49,10 @@ export function ChatBox(props: ChatBoxProps) {
     useEffect(() => {
         props.socket.on('message', (messageData: MessageDataProps) => {
             const newMessage = (
-                <Message 
-                    user={messageData.sender} 
-                    message={messageData.text} 
-                    timestamp={messageData.timestamp} 
+                <Message
+                    user={messageData.sender}
+                    message={messageData.text}
+                    timestamp={messageData.timestamp}
                 />
             );
             setMessages(prevMessages => [...prevMessages, newMessage]);
@@ -67,10 +68,10 @@ export function ChatBox(props: ChatBoxProps) {
     useEffect(() => {
         props.socket.on('chatHistory', (messages) => {
             const formattedMessages = messages.map((messageData: MessageDataProps) => (
-                <Message 
-                    user={messageData.sender} 
-                    message={messageData.text} 
-                    timestamp={messageData.timestamp} 
+                <Message
+                    user={messageData.sender}
+                    message={messageData.text}
+                    timestamp={messageData.timestamp}
                 />
             ));
             setMessages(formattedMessages);
@@ -184,7 +185,7 @@ export function ChatBox(props: ChatBoxProps) {
 
         return (
             <div>
-                <form onSubmit={handleSubmit} 
+                <form onSubmit={handleSubmit}
                       style={{ display: 'flex', justifyContent: 'space-between' }}>
 
                     <input
