@@ -11,16 +11,11 @@ interface LobbySettingsProps {
 
 export function LobbySettings(props: LobbySettingsProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    const newValue = parseFloat(e.target.value)
-    if (!isNaN(newValue)) {
-      if (newValue <= 20) {
-        props.setChatTime(newValue)
-      } else {
-        props.setChatTime(10)
-      }
+    const newValue = parseFloat(e.target.value);
+    if (!isNaN(newValue) && newValue <= 20) {
+      props.setChatTime(newValue);
     } else {
-      props.setChatTime(10)
+      props.setChatTime(10);  // Default time when invalid
     }
   }
 

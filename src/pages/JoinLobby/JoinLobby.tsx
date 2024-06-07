@@ -5,7 +5,7 @@ import { Socket } from 'socket.io-client';
 import './JoinLobby.css';
 
 interface JoinLobbyProps {
-  socket : Socket;
+  socket: Socket;
 }
 
 export function JoinLobby(props : JoinLobbyProps) {
@@ -71,14 +71,14 @@ export function JoinLobby(props : JoinLobbyProps) {
   //   const handleChatStarted = () => {
   //     const encodedId = encodeURIComponent(code);
   //     window.location.href = `chatroom?name=${name}&id=${encodedId}`;
-  
+
   //     // Turn off the event listener after it has been used once
   //     props.socket.off('chatStarted', handleChatStarted);
   //   };
-  
+
   //   // Set up event listeners
   //   props.socket.on('chatStarted', handleChatStarted);
-  
+
   //   // Clean up event listeners when the component unmounts
   //   return () => {
   //     // Turn off event listeners
@@ -97,7 +97,6 @@ export function JoinLobby(props : JoinLobbyProps) {
 
 
   return (
-    //three main sections: screen, content box, members box
     <div className="screen">
       <div>
         <h1 className="joinheader">Join Chatroom</h1>
@@ -106,17 +105,17 @@ export function JoinLobby(props : JoinLobbyProps) {
       <div className="logo-container">
         <img src="logo.jpg" alt="Logo" className="logo" />
       </div>
-      
+
       <a href="home">
         <button className="top-right-button">Quit Chatroom</button>
       </a>
 
-      {(lobbyState === 'Waiting') && 
+      {(lobbyState === 'Waiting') &&
       <p className="waiting-paragraph">
         Attempting to join lobby...
       </p>}
 
-      {/* {(lobbyState === 'Error') && 
+      {/* {(lobbyState === 'Error') &&
       <p className="waiting-paragraph">
         Error joining room. Please try again.
       </p>} */}
@@ -128,7 +127,7 @@ export function JoinLobby(props : JoinLobbyProps) {
         <p className="waiting-paragraph">Task:</p>
 
       </div>
-      
+
     </div>
   );
 }
