@@ -1,14 +1,10 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Socket } from 'socket.io-client';
 
 import './Chatroom.css'
 import {RightSideBar} from './RightSideBar';
 import {SideBar}      from './LeftSideBar';
 import {ChatBox}      from './ChatBox';
-
-
-type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 
 interface ChatroomItems {
   time: number;
@@ -21,8 +17,8 @@ interface ChatroomProps {
 }
 
 export function Chatroom(props: ChatroomProps) {
-  const [code,           setCode]           = useState('');
-  const [lobbyid,        setlobbyid]        = useState('');
+  const [chatid,         setChatId]           = useState('');
+  const [lobbyid,        setLobbyId]        = useState('');
   const [chatName,       setChatName]       = useState('');
   const [chatTime,       setChatTime]       = useState(0);
   const [chatTopic,      setChatTopic]      = useState('');
@@ -35,46 +31,50 @@ export function Chatroom(props: ChatroomProps) {
   useEffect(() => {
     // Retrieve the name parameter from the URL
     const searchParams = new URLSearchParams(window.location.search);
-    const idFromURL = searchParams.get('id') || '....'; // default id: '....'
-    const nameFromURL = searchParams.get('name');
-    setlobbyid(searchParams.get('lobbyid') || '....');
+    const nameFromURL = searchParams.get('name') || 'Guest';
+    const chatIdFromURL = searchParams.get('chatid') || '....';
+    const lobbyIdFromURL = searchParams.get('lobbyid') || '....'; 
 
-    if (nameFromURL !== null) {
-      const decodedName = decodeURIComponent(nameFromURL);
-      // Now decodedName is guaranteed to be a string
-      setName(decodedName);
+    setName(decodeURIComponent(nameFromURL));
+    setChatId(chatIdFromURL);
+    setLobbyId(lobbyIdFromURL);
+  }, []);
+
+  useEffect(() => {
+    const handleJoinedChatroom = (guid: any) => {
+      console.log("Received Ping");
+      props.socket.emit('getChatData', lobbyid, chatid);
+      console.log(chatid);
+      console.log("sent Ping");
     };
 
-    // Set the name
-    setCode(() => idFromURL);
+    props.socket.on('joinedChatroom', handleJoinedChatroom);
 
-  }, [setCode]);
-
-  useEffect(() => {
-    props.socket.on('joinedChatroom', (guid : any) => {
-      console.log("Recieved Ping");
-      props.socket.emit('getChatData', lobbyid, code);
-      console.log(code);
-      console.log("sent Ping");
-    });
-
-  }, [props.socket, code]);
+    return () => {
+      props.socket.off('joinedChatroom', handleJoinedChatroom);
+    };
+  }, [props.socket, chatid, lobbyid]);
 
   useEffect(() => {
-    props.socket.on('chatData', (chatItems : ChatroomItems) => {
-
+    const handleChatData = (chatItems: ChatroomItems) => {
       setChatName(chatItems.chatName);
       setChatTime(chatItems.time);
       setChatTopic(chatItems.chatTopic);
-    });
-  }, []);
+    };
+
+    props.socket.on('chatData', handleChatData);
+
+    return () => {
+      props.socket.off('chatData', handleChatData);
+    };
+  }, [props.socket]);
 
   return (
     <div style={{ backgroundColor: '#EEEDEA' }}>
       
       <div className='page-header'>
         <p>{'EduChatbot'}</p>
-        <p>{'Chatroom: ' + code}</p>
+        <p>{'Chatroom: ' + chatid}</p>
       </div>
 
       <div style={{ display: 'flex' }}>
@@ -84,7 +84,7 @@ export function Chatroom(props: ChatroomProps) {
           <SideBar
             time          ={chatTime} 
             socket        ={props.socket} 
-            code          ={code} 
+            code          ={chatid} 
             lobbyid       ={lobbyid}
             name          ={name} 
             messages      ={masterMessages}
@@ -98,7 +98,7 @@ export function Chatroom(props: ChatroomProps) {
         <div className='body-container'>
           <ChatBox 
             socket            ={props.socket} 
-            code              ={code} 
+            code              ={chatid} 
             lobbyid           ={lobbyid}
             setMasterMessages ={setMasterMessages} 
             disabled          ={disabled}

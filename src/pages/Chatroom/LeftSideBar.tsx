@@ -83,7 +83,7 @@ export function SideBar(props : SideBarProps) {
             time={time} 
             socket={props.socket} 
             code={props.code} 
-            lobbyid={props.lobbyid} 
+            // lobbyid={props.lobbyid} 
             setDisabled={props.setDisabled}
             inactivity={props.inactivity}
             setInactivity={props.setInactivity}/>

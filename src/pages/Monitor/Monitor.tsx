@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
 
-import {RightSideBar} from './RightSideBar';
+import { RightSideBar } from './RightSideBar';
 import './Monitor.css';
 
 interface JoinLobbyProps {
-  socket : Socket;
+  socket: Socket;
 }
 
-export function Monitor(props : JoinLobbyProps) {
-  const [name,       setName]       = useState('Guest');
-  const [code,       setCode]       = useState('');
-  const [userList,   setUserList]   = useState<string[]>([]);
+export function Monitor(props: JoinLobbyProps) {
+  const [name, setName] = useState('Guest');
+  const [code, setCode] = useState('');
+  const [userList, setUserList] = useState<string[]>([]);
   const [numStudent, setNumStudent] = useState(0);
-  
+
 
   // Initialize the state with x boxes when the component is mounted
   useEffect(() => {
@@ -28,47 +28,55 @@ export function Monitor(props : JoinLobbyProps) {
     setName(() => formattedName);
   }, []);
 
+  // // Ask for Lobby Code
+  // useEffect(() => {
+  //   props.socket.emit('getLobbyCode');
+  //   console.log("getLobbyCode");
+  // },[]);
 
-  // Ask for Lobby Code
+  // // Wait for lobby Code
+  // useEffect(() => {
+  //   props.socket.on('getLobbyCodeResponse', (guid) => {
+  //     console.log("getLobbyCodeResponse:", guid);
+  //     setCode(guid);
+  //   });
+  // },[]);
+
+  // DEMO CODE, only one active lobby for the demo
   useEffect(() => {
     props.socket.emit('getLobbyCode');
-    console.log("getLobbyCode");
-  },[]);
-
-
-  // Wait for lobby Code
-  useEffect(() => {
-    props.socket.on('getLobbyCodeResponse', (guid) => {
-      console.log("getLobbyCodeResponse:", guid);
-      setCode(guid);
-    });
-  },[]);
-
-
-  useEffect(() => {
-    const handleChatStarted = () => {
-      const encodedId = encodeURIComponent(code);
-      window.location.href = `chatroom?name=${name}&id=${encodedId}`;
-  
-      // Turn off the event listener after it has been used once
-      props.socket.off('chatStarted', handleChatStarted);
-    };
-  
-    // Set up event listeners
-    props.socket.on('chatStarted', handleChatStarted);
-  
-    // Clean up event listeners when the component unmounts
+    props.socket.on('getLobbyCodeResponse', setCode);
     return () => {
-      // Turn off event listeners
-      props.socket.off('chatStarted', handleChatStarted);
+      props.socket.off('getLobbyCodeResponse');
     };
-  }, [code, name]);
+  }, [props.socket]);
 
-  
+
+  // NOT needed?
+  // useEffect(() => {
+  //   const handleChatStarted = () => {
+  //     const encodedName = encodeURIComponent(name);
+  //     const encodedChatCode = encodeURIComponent(code);
+  //     window.location.href = `/chatroom?name=${encodedName}&id=${encodedChatCode}`;
+
+  //     // Turn off the event listener after it has been used once
+  //     props.socket.off('chatStarted', handleChatStarted);
+  //   };
+
+  //   // Set up event listeners
+  //   props.socket.on('chatStarted', handleChatStarted);
+
+  //   // Clean up event listeners when the component unmounts
+  //   return () => {
+  //     // Turn off event listeners
+  //     props.socket.off('chatStarted', handleChatStarted);
+  //   };
+  // }, [props.socket, name]);
+
+
   // getUserListOfLobby
   useEffect(() => {
     props.socket.emit('getUserListOfLobby', code);
-
     const intervalId = setInterval(() => {
       props.socket.emit('getUserListOfLobby', code);
     }, 1000);
@@ -78,15 +86,27 @@ export function Monitor(props : JoinLobbyProps) {
     };
   }, [code, props.socket]);
 
-
   // userListOfLobbyResponse
+  // useEffect(() => {
+  //   props.socket.on('userListOfLobbyResponse', (userList: Array<String>) => {
+  //     setNumStudent(userList.length);
+  //     setUserList(userList);
+  //     console.log(userList);
+  //   })
+  // }, []);
   useEffect(() => {
-    props.socket.on('userListOfLobbyResponse', (userListObj: {userList: string[]}) => {
-      setNumStudent(userListObj.userList.length);
-      setUserList(userListObj.userList);
+    props.socket.on('userListOfLobbyResponse', (userList: string[]) => {
+      setUserList(userList);
+      setNumStudent(userList.length);
       console.log(userList);
-    })
-  }, []);
+    });
+  
+    // Clean up listener when the component unmounts or dependencies change
+    return () => {
+      props.socket.off('userListOfLobbyResponse');
+    };
+  }, [props.socket]);
+
 
   const generateChatrooms = () => {
     props.socket.emit('createChatrooms', code);
@@ -105,13 +125,13 @@ export function Monitor(props : JoinLobbyProps) {
       </button>
 
       <div className='left'>
-        {<LobbyInformation users={userList}/>}
+        {<LobbyInformation users={userList} />}
       </div>
-      
+
       {/* right side bar, display number of students */}
       <div className='right'>
-        <RightSideBar num_student={numStudent}/>
-        {<UserList users={userList}/>}
+        <RightSideBar num_student={numStudent} />
+        {<UserList users={userList} />}
       </div>
 
     </div>
@@ -120,16 +140,16 @@ export function Monitor(props : JoinLobbyProps) {
 
 interface UserBoxProps {
   content: string;
-  index : number;
+  index: number;
 }
 
 interface LobbbyInformationProps {
-  users : string[];
+  users: string[];
 }
 
-function LobbyInformation(props : LobbbyInformationProps) {
-  const [boxes, setBoxes] : any[] = useState([]);
-  const [index, setIndex]         = useState(0);
+function LobbyInformation(props: LobbbyInformationProps) {
+  const [boxes, setBoxes]: any[] = useState([]);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     let initialBoxes = [];
@@ -138,10 +158,10 @@ function LobbyInformation(props : LobbbyInformationProps) {
     }
 
     setBoxes(initialBoxes);
-    setIndex(props.users.length-1);
+    setIndex(props.users.length - 1);
   }, [props.users]);
 
-  const UserBox = (props : UserBoxProps) => {
+  const UserBox = (props: UserBoxProps) => {
     return (
       <div className="b" key={props.index}>
 
@@ -172,9 +192,9 @@ function LobbyInformation(props : LobbbyInformationProps) {
   );
 }
 
-function UserList(props : LobbbyInformationProps) {
-  const [boxes, setBoxes] : any[] = useState([]);
-  const [index, setIndex]         = useState(0);
+function UserList(props: LobbbyInformationProps) {
+  const [boxes, setBoxes]: any[] = useState([]);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     let initialBoxes = [];
@@ -183,10 +203,10 @@ function UserList(props : LobbbyInformationProps) {
     }
 
     setBoxes(initialBoxes);
-    setIndex(props.users.length-1);
+    setIndex(props.users.length - 1);
   }, [props.users]);
 
-  const UserBox = (props : UserBoxProps) => {
+  const UserBox = (props: UserBoxProps) => {
     return (
       <div key={props.index}>
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
 
@@ -11,7 +12,10 @@ interface JoinLobbyProps {
 export function JoinLobby(props : JoinLobbyProps) {
   const [name,       setName]       = useState('Guest');
   const [code,       setCode]       = useState('');
+  const [chatCode,   setChatCode]   = useState('');
   const [lobbyState, setLobbyState] = useState('Waiting');
+
+  const navigate = useNavigate();
 
   // Initialize the state with x boxes when the component is mounted
   useEffect(() => {
@@ -85,15 +89,37 @@ export function JoinLobby(props : JoinLobbyProps) {
   //     props.socket.off('chatStarted', handleChatStarted);
   //   };
   // }, [code, name]);
-
+  // Listening for the start of the chat and handling redirection
   useEffect(() => {
-    props.socket.on('joinedChatroom', (guid) => {
-      console.log("joinedChatroom: ", guid);
-      //setCode(guid);
-      // const encodedId = encodeURIComponent(code);
-      window.location.href = `chatroom?name=${name}&id=${guid}&lobbyid=${code}`;
-    });
-  }, [code, name]);
+    const handleChatStarted = (lobbyId: string, chatId: string) => {
+      console.log("Received chatStarted with lobbyId:", lobbyId, "and chatId:", chatId);
+      const encodedName = encodeURIComponent(name);
+      const encodedLobbyId = encodeURIComponent(lobbyId);
+      const encodedChatId = encodeURIComponent(chatId);
+      navigate(
+        `/chatroom?name=${encodedName}&lobbyid=${encodedLobbyId}&chatid=${encodedChatId}`
+      );
+      //window.location.href = `chatroom?name=${encodeURIComponent(name)}&id=${encodedId}`;
+    };
+  
+    props.socket.on('chatStarted', handleChatStarted);
+  
+    // Cleanup to prevent memory leaks
+    return () => {
+      props.socket.off('chatStarted', handleChatStarted);
+    };
+  }, [props.socket, name, navigate]);  // 'name' is used to encode the URL parameter
+
+
+  // useEffect(() => {
+  //   props.socket.on('joinedChatroom', (chatId) => {
+  //     console.log("joinedChatroom: ", chatId);
+  //     const encodedName = encodeURIComponent(name);
+  //     const encodedChatId = encodeURIComponent(name);
+  //     navigate(`/chatroom?name=${name}&id=${guid}&lobbyid=${code}`);
+  //     window.location.href = `chatroom?name=${name}&id=${guid}&lobbyid=${code}`;
+  //   });
+  // }, [code, name, navigate]);
 
 
   return (

@@ -48,6 +48,7 @@ export function ChatBox(props: ChatBoxProps) {
 
     useEffect(() => {
         props.socket.on('message', (messageData: MessageDataProps) => {
+            console.log(`Messages received: ${messageData.text}`);
             const newMessage = (
                 <Message
                     user={messageData.sender}
@@ -174,12 +175,11 @@ export function ChatBox(props: ChatBoxProps) {
             let messageData = {
                 text: input,
                 sender: name,
-                lobbyId: props.code,
                 timestamp: formatTimestamp(new Date().getTime()),
             };
 
             console.log(` LOBBY ID: ${props.code}, sending ${input}`);
-            props.socket.emit('lobbyMessage', props.code, messageData);
+            props.socket.emit('chatMessage', props.lobbyid, props.code, messageData);
             setInput('');
         };
 

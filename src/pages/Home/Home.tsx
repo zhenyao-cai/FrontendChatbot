@@ -1,6 +1,7 @@
-import { yellow } from '@mui/material/colors';
+// import { yellow } from '@mui/material/colors';
 import './Home.css';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Socket } from 'socket.io-client';
 
@@ -17,10 +18,15 @@ export function Home(props:HomeProps) {
   const [actionType,          setActionType]        = useState<'join' | 'create' | undefined>();
   const [LobbyCreated,        setLobbyCreated]      = useState(false);
 
+  const navigate = useNavigate(); // Using navigate function from React Router
+  
   const openPopup = (type: 'join' | 'create') => {
     setActionType(type);
-    if (type == 'join') {setStudentPopupOpen(true);}
-    else {setTeacherPopupOpen(true);}
+    if (type === 'join') {
+      setStudentPopupOpen(true);
+    } else {
+      setTeacherPopupOpen(true);
+    }
   };
 
   const closePopup = () => {
@@ -31,7 +37,7 @@ export function Home(props:HomeProps) {
   const handleLinkClick = () => {
     if(name){
       const encodedName = encodeURIComponent(name);
-      window.location.href = `joinlobby?name=${encodedName}`; // jump to joinlobby page
+      navigate(`/joinlobby?name=${encodedName}`); // Prevents page from reloading
     }
 
   };
@@ -40,7 +46,7 @@ export function Home(props:HomeProps) {
     if(name){
       closePopup();
       const encodedName = encodeURIComponent(name);
-      window.location.href = `createlobby?name=${encodedName}`; // jump to createlobby page
+      navigate(`/createlobby?name=${encodedName}`); // Prevents page from reloading
     }
     
   };

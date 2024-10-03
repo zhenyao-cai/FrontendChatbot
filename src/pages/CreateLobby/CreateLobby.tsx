@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CreateLobby.css';
 import { BotSettings } from './BotSettings';
 import { LobbySettings } from './LobbySettings';
@@ -9,7 +10,7 @@ interface CreateLobbyProps {
 }
 
 interface UserListLobby {
-  userList : Array<String>;
+  userList : string[];
 }
 
 export function CreateLobby(props: CreateLobbyProps) {
@@ -20,16 +21,15 @@ export function CreateLobby(props: CreateLobbyProps) {
   const [assertiveness, setAssertiveness] = useState(2);
   const [topic,         setTopic]         = useState('');
   const [chatName,      setChatName]      = useState('Discussion');
-  const [userCount,     setUserCount]     = useState(1);
+  const [userList,     setUserList]     = useState<string[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Retrieve the name parameter from the URL
     const searchParams = new URLSearchParams(window.location.search);
     const nameFromURL = searchParams.get('name') || 'Guest';
-
     const formattedName = nameFromURL.replace(/\b\w/g, match => match.toUpperCase());
-
-    // Set the name
     setName(formattedName);
   }, [setName]);
 
@@ -56,7 +56,7 @@ export function CreateLobby(props: CreateLobbyProps) {
 
   // finish setting, go to monitor page
   const handleChatroomStart = () => {
-    let lobbyData = {
+    let chatData = {
       botname: botName,
       chatLength: chatTime,
       assertiveness: assertiveness,
@@ -65,12 +65,11 @@ export function CreateLobby(props: CreateLobbyProps) {
     }
 
     // send bot settings thru socket
-    props.socket.emit('updateBotSettings', lobbyId, lobbyData);
+    props.socket.emit('updateChatSettings', lobbyId, chatData);
 
     if (lobbyId !== '. . . .') {
       const encodedId = encodeURIComponent(lobbyId);
-      // window.location.href = `chatroom?name=${name}&id=${encodedId}`; // jump to chatroom page
-      window.location.href = `monitor`; // jump to monitor page
+      navigate(`/monitor?lobbyId=${encodedId}`); 
     }
   };
 
@@ -88,8 +87,8 @@ export function CreateLobby(props: CreateLobbyProps) {
   }, [lobbyId, props.socket]);
 
   useEffect(() => {
-    props.socket.on('userListOfLobbyResponse', (userListObj : UserListLobby) => {
-      setUserCount(userListObj.userList.length);
+    props.socket.on('userListOfLobbyResponse', (userList : string[]) => {
+      setUserList(userList);
     })
 
     props.socket.on('userListOfLobbyResponseError', () => {});
@@ -128,7 +127,7 @@ export function CreateLobby(props: CreateLobbyProps) {
         <LobbySettings setChatTime={setChatTime}
                        setTopic={setTopic}
                        setChatName={setChatName}
-                       userCount={userCount}
+                       userCount={userList.length}
         />
       </div>
     </div>
