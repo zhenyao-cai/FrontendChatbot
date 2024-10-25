@@ -7,8 +7,8 @@ import { Chatroom } from './pages/Chatroom/Chatroom';
 import { Monitor } from './pages/Monitor/Monitor';
 import io from 'socket.io-client';
 
-const SERVER_URL = process.env.SERVER_URL ?? "";
-const socket = io(SERVER_URL);
+const REACT_APP_SERVER_URL = process.env.SERVER_URL ?? "";
+const socket = io(REACT_APP_SERVER_URL);
 
 // "/home" is the homepage
 // Teacher route: CreateLobby->LobbySettings->
