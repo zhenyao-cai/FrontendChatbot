@@ -26,7 +26,8 @@ export function Chatroom(props: ChatroomProps) {
   const [masterMessages, setMasterMessages] = useState<JSX.Element[]>([]);
   const [disabled,       setDisabled]       = useState(false);
   const [inactivity,     setInactivity]     = useState('pending');
-  const [score,          setScore]          = useState(10);  // participation score
+  // const [score,          setScore]          = useState(10);  // participation score
+  const score = 10;
 
   useEffect(() => {
     // Retrieve the name parameter from the URL

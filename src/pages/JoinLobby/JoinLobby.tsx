@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
 
 import './JoinLobby.css';
@@ -12,7 +12,7 @@ interface JoinLobbyProps {
 export function JoinLobby(props : JoinLobbyProps) {
   const [name,       setName]       = useState('Guest');
   const [code,       setCode]       = useState('');
-  const [chatCode,   setChatCode]   = useState('');
+  // const [chatCode,   setChatCode]   = useState('');
   const [lobbyState, setLobbyState] = useState('Waiting');
 
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export function JoinLobby(props : JoinLobbyProps) {
     //     setLobbyState('Error');
     //   }
     // });
-  }, []);
+  }, [props.socket]);
 
 
   // Wait for getLobbyCodeResponse event, then try to join lobby
@@ -49,17 +49,17 @@ export function JoinLobby(props : JoinLobbyProps) {
       console.log("getLobbyCodeResponse: ", guid);
       setCode(guid);
     });
-  }, []);
+  }, [props.socket]);
 
 
   // Emit joinLobby if name and code are valid.
   useEffect(() => {
-    if (name != "Guest" && code != ""){
+    if (name !== "Guest" && code !== ""){
       props.socket.emit('joinLobby', code, name);
       console.log(name,"try to join Lobby:", code);
       setLobbyState("joinLobby");
     }
-  }, [code, name]);
+  }, [code, name, props.socket]);
 
 
   // Wait for joinedLobby event. If joined successfully, set state to 'joined'
@@ -68,7 +68,7 @@ export function JoinLobby(props : JoinLobbyProps) {
       console.log("joinedLobby");
       setLobbyState('Joined');
     });
-  }, []);
+  }, [props.socket]);
 
   // start chat
   // useEffect(() => {

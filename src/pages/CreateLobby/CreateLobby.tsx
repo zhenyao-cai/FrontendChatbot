@@ -9,9 +9,9 @@ interface CreateLobbyProps {
   socket: Socket;
 }
 
-interface UserListLobby {
-  userList : string[];
-}
+// interface UserListLobby {
+//   userList : string[];
+// }
 
 export function CreateLobby(props: CreateLobbyProps) {
   const [name,          setName]          = useState('');
@@ -92,7 +92,7 @@ export function CreateLobby(props: CreateLobbyProps) {
     })
 
     props.socket.on('userListOfLobbyResponseError', () => {});
-  }, []);
+  }, [props.socket]);
 
   return (
     <div>

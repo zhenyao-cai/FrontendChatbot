@@ -1,6 +1,6 @@
 // import { yellow } from '@mui/material/colors';
 import './Home.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Socket } from 'socket.io-client';
@@ -16,7 +16,7 @@ export function Home(props:HomeProps) {
   const [name,                setName]              = useState('');
   const [password,            setPassword]          = useState('');
   const [actionType,          setActionType]        = useState<'join' | 'create' | undefined>();
-  const [LobbyCreated,        setLobbyCreated]      = useState(false);
+  // const [LobbyCreated,        setLobbyCreated]      = useState(false);
 
   const navigate = useNavigate(); // Using navigate function from React Router
   
@@ -67,12 +67,12 @@ export function Home(props:HomeProps) {
     }
   };
 
-  useEffect(() => {
-    props.socket.on('lobbyCreated', () => {
-      console.log("lobbyCreated")
-      setLobbyCreated(true);
-    });
-  },[]);
+  // useEffect(() => {
+  //   props.socket.on('lobbyCreated', () => {
+  //     console.log("lobbyCreated")
+  //     setLobbyCreated(true);
+  //   });
+  // },[]);
 
 
   return (

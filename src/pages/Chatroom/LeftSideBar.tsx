@@ -45,7 +45,7 @@ export function SideBar(props : SideBarProps) {
             const user = message.props.user;
             const text = message.props.message;
   
-            if (message.props.timestamp == '' && index > 0)
+            if (message.props.timestamp === '' && index > 0)
               t = array[index - 1].props.timestamp || '';
             else 
               t = message.props.timestamp || '';
@@ -61,13 +61,13 @@ export function SideBar(props : SideBarProps) {
       saveAs(blob, filename);
     };
   
-    const handleChatroomLeave = () => {
-      if (props.socket && props.code) {
-        props.socket.emit('leaveLobby', props.code, props.name);
-      }
+    // const handleChatroomLeave = () => {
+    //   if (props.socket && props.code) {
+    //     props.socket.emit('leaveLobby', props.code, props.name);
+    //   }
       
-      window.location.href = 'home';
-    };
+    //   window.location.href = 'home';
+    // };
   
     return (
       <div style={{ paddingLeft: 20, paddingRight:20 }}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
 
 import { RightSideBar } from './RightSideBar';
@@ -10,23 +10,23 @@ interface JoinLobbyProps {
 }
 
 export function Monitor(props: JoinLobbyProps) {
-  const [name, setName] = useState('Guest');
+  // const [name, setName] = useState('Guest');
   const [code, setCode] = useState('');
   const [userList, setUserList] = useState<string[]>([]);
   const [numStudent, setNumStudent] = useState(0);
 
 
   // Initialize the state with x boxes when the component is mounted
-  useEffect(() => {
-    // Retrieve the name parameter from the URL
-    const searchParams = new URLSearchParams(window.location.search);
-    const nameFromURL = searchParams.get('name') || 'Guest';
+  // useEffect(() => {
+  //   // Retrieve the name parameter from the URL
+  //   const searchParams = new URLSearchParams(window.location.search);
+  //   const nameFromURL = searchParams.get('name') || 'Guest';
 
-    const formattedName = nameFromURL.replace(/\b\w/g, match => match.toUpperCase());
+  //   const formattedName = nameFromURL.replace(/\b\w/g, match => match.toUpperCase());
 
-    // Set the name synchronously before initializing the boxes
-    setName(() => formattedName);
-  }, []);
+  //   // Set the name synchronously before initializing the boxes
+  //   setName(() => formattedName);
+  // }, []);
 
   // // Ask for Lobby Code
   // useEffect(() => {
@@ -149,7 +149,7 @@ interface LobbbyInformationProps {
 
 function LobbyInformation(props: LobbbyInformationProps) {
   const [boxes, setBoxes]: any[] = useState([]);
-  const [index, setIndex] = useState(0);
+  // const [index, setIndex] = useState(0);
 
   useEffect(() => {
     let initialBoxes = [];
@@ -158,7 +158,7 @@ function LobbyInformation(props: LobbbyInformationProps) {
     }
 
     setBoxes(initialBoxes);
-    setIndex(props.users.length - 1);
+    // setIndex(props.users.length - 1);
   }, [props.users]);
 
   const UserBox = (props: UserBoxProps) => {
@@ -194,7 +194,7 @@ function LobbyInformation(props: LobbbyInformationProps) {
 
 function UserList(props: LobbbyInformationProps) {
   const [boxes, setBoxes]: any[] = useState([]);
-  const [index, setIndex] = useState(0);
+  // const [index, setIndex] = useState(0);
 
   useEffect(() => {
     let initialBoxes = [];
@@ -203,7 +203,7 @@ function UserList(props: LobbbyInformationProps) {
     }
 
     setBoxes(initialBoxes);
-    setIndex(props.users.length - 1);
+    // setIndex(props.users.length - 1);
   }, [props.users]);
 
   const UserBox = (props: UserBoxProps) => {
