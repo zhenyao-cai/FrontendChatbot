@@ -45,7 +45,7 @@ export function ChatBox(props: ChatBoxProps) {
             console.log('Connected to server!');
         });
     }, [props.socket]);
-
+    
     useEffect(() => {
         props.socket.on('message', (messageData: MessageDataProps) => {
             console.log(`Messages received: ${messageData.text}`);
@@ -64,6 +64,7 @@ export function ChatBox(props: ChatBoxProps) {
         return () => {
             props.socket.off('message');
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.socket]);
 
     useEffect(() => {
@@ -82,6 +83,7 @@ export function ChatBox(props: ChatBoxProps) {
         return () => {
             props.socket.off('chatHistory');
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.socket, props.setMasterMessages]);
 
     useEffect(() => {
@@ -89,6 +91,7 @@ export function ChatBox(props: ChatBoxProps) {
             props.setInactivity('message');
             props.socket.emit('lobbyInactivity', props.code);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.inactivity, props.setInactivity, props.socket, props.code]);
 
     useEffect(() => {
