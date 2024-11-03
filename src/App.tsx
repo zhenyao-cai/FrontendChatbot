@@ -7,7 +7,7 @@ import { Chatroom } from './pages/Chatroom/Chatroom';
 import { Monitor } from './pages/Monitor/Monitor';
 import io from 'socket.io-client';
 
-const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL ?? "";
+const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL ?? "localhost:4000";
 const socket = io(REACT_APP_SERVER_URL);
 
 // "/home" is the homepage
