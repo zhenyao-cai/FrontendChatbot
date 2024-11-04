@@ -14,7 +14,7 @@ export function Home(props:HomeProps) {
   const [isTeacherPopupOpen,  setTeacherPopupOpen]  = useState(false);
   const [isStudentPopupOpen,  setStudentPopupOpen]  = useState(false);
   const [name,                setName]              = useState('');
-  const [joinCode,            setJoinCode]              = useState('');
+  const [lobbyId,            setLobbyId]              = useState('');
   const [password,            setPassword]          = useState('');
   const [actionType,          setActionType]        = useState<'join' | 'create' | undefined>();
   // const [LobbyCreated,        setLobbyCreated]      = useState(false);
@@ -56,8 +56,8 @@ export function Home(props:HomeProps) {
     setName(e.target.value);
   };
 
-  const handleJoinCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setJoinCode(e.target.value);
+  const handleLobbyIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLobbyId(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,8 +150,8 @@ export function Home(props:HomeProps) {
 
             <input
               type="text"
-              value={joinCode}
-              onChange={handleJoinCodeChange}
+              value={lobbyId}
+              onChange={handleLobbyIdChange}
               placeholder="Join code"
             ></input>
 
