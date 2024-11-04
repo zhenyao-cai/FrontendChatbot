@@ -22,10 +22,12 @@ export function JoinLobby(props : JoinLobbyProps) {
     // Retrieve the name parameter from the URL
     const searchParams = new URLSearchParams(window.location.search);
     const nameFromURL = searchParams.get('name') || 'Guest';
+    const lobbyIdFromURL = searchParams.get('lobbyid') || ''
 
     // const formattedName = nameFromURL.replace(/\b\w/g, match => match.toUpperCase());
     // Set the name synchronously before initializing the boxes
     setName(nameFromURL);
+    setCode(lobbyIdFromURL)
   }, []);
 
 
@@ -44,12 +46,11 @@ export function JoinLobby(props : JoinLobbyProps) {
 
 
   // Wait for getLobbyCodeResponse event, then try to join lobby
-  useEffect(() => {
-    props.socket.on('getLobbyCodeResponse', (guid) => {
-      console.log("getLobbyCodeResponse: ", guid);
-      setCode(guid);
-    });
-  }, [props.socket]);
+  // useEffect(() => {
+  //   props.socket.on('getLobbyCodeResponse', (guid) => {
+  //     console.log("getLobbyCodeResponse: ", guid);
+  //   });
+  // }, [props.socket]);
 
 
   // Emit joinLobby if name and code are valid.

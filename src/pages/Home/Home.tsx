@@ -38,7 +38,8 @@ export function Home(props:HomeProps) {
   const handleLinkClick = () => {
     if(name){
       const encodedName = encodeURIComponent(name);
-      navigate(`/joinlobby?name=${encodedName}`); // Prevents page from reloading
+      const encodedLobbyId = encodeURIComponent(lobbyId)
+      navigate(`/joinlobby?name=${encodedName}&lobbyid=${encodedLobbyId}`); // Prevents page from reloading
     }
 
   };
