@@ -71,6 +71,16 @@ export function JoinLobby(props : JoinLobbyProps) {
     });
   }, [props.socket]);
 
+  useEffect(() => {
+    props.socket.on('joinLobbyError', (msg) => {
+      console.log(msg);
+      console.log("GOT THE MESSAGE AAAA");
+      // send error message and redirect?
+      navigate('/')
+      setLobbyState('Waiting');
+    })
+  })
+
   // start chat
   // useEffect(() => {
   //   const handleChatStarted = () => {
