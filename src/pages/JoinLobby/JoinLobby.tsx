@@ -22,10 +22,12 @@ export function JoinLobby(props : JoinLobbyProps) {
     // Retrieve the name parameter from the URL
     const searchParams = new URLSearchParams(window.location.search);
     const nameFromURL = searchParams.get('name') || 'Guest';
+    const lobbyIdFromURL = searchParams.get('lobbyid') || ''
 
     // const formattedName = nameFromURL.replace(/\b\w/g, match => match.toUpperCase());
     // Set the name synchronously before initializing the boxes
     setName(nameFromURL);
+    setCode(lobbyIdFromURL)
   }, []);
 
 
@@ -44,12 +46,11 @@ export function JoinLobby(props : JoinLobbyProps) {
 
 
   // Wait for getLobbyCodeResponse event, then try to join lobby
-  useEffect(() => {
-    props.socket.on('getLobbyCodeResponse', (guid) => {
-      console.log("getLobbyCodeResponse: ", guid);
-      setCode(guid);
-    });
-  }, [props.socket]);
+  // useEffect(() => {
+  //   props.socket.on('getLobbyCodeResponse', (guid) => {
+  //     console.log("getLobbyCodeResponse: ", guid);
+  //   });
+  // }, [props.socket]);
 
 
   // Emit joinLobby if name and code are valid.
@@ -69,6 +70,22 @@ export function JoinLobby(props : JoinLobbyProps) {
       setLobbyState('Joined');
     });
   }, [props.socket]);
+
+  useEffect(() => {
+    const handleJoinLobbyError = (msg: String) => {
+      console.log(msg);
+      alert(msg);  // Show alert once
+      navigate('/');  // Redirect to the home page
+    };
+
+    // Set up the event listener
+    props.socket.on('joinLobbyError', handleJoinLobbyError);
+
+    // Clean up the event listener on unmount
+    return () => {
+      props.socket.off('joinLobbyError', handleJoinLobbyError);
+    };
+  }, [props.socket, navigate]);
 
   // start chat
   // useEffect(() => {

@@ -14,6 +14,7 @@ export function Home(props:HomeProps) {
   const [isTeacherPopupOpen,  setTeacherPopupOpen]  = useState(false);
   const [isStudentPopupOpen,  setStudentPopupOpen]  = useState(false);
   const [name,                setName]              = useState('');
+  const [lobbyId,            setLobbyId]              = useState('');
   const [password,            setPassword]          = useState('');
   const [actionType,          setActionType]        = useState<'join' | 'create' | undefined>();
   // const [LobbyCreated,        setLobbyCreated]      = useState(false);
@@ -37,7 +38,8 @@ export function Home(props:HomeProps) {
   const handleLinkClick = () => {
     if(name){
       const encodedName = encodeURIComponent(name);
-      navigate(`/joinlobby?name=${encodedName}`); // Prevents page from reloading
+      const encodedLobbyId = encodeURIComponent(lobbyId)
+      navigate(`/joinlobby?name=${encodedName}&lobbyid=${encodedLobbyId}`); // Prevents page from reloading
     }
 
   };
@@ -53,6 +55,10 @@ export function Home(props:HomeProps) {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
+  };
+
+  const handleLobbyIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLobbyId(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,6 +148,13 @@ export function Home(props:HomeProps) {
               onKeyPress={handleNameKeyPress}
               placeholder="Enter your name"
             />
+
+            <input
+              type="text"
+              value={lobbyId}
+              onChange={handleLobbyIdChange}
+              placeholder="Join code"
+            ></input>
 
             <button onClick={closePopup}>
               Cancel
