@@ -72,14 +72,20 @@ export function JoinLobby(props : JoinLobbyProps) {
   }, [props.socket]);
 
   useEffect(() => {
-    props.socket.on('joinLobbyError', (msg) => {
+    const handleJoinLobbyError = (msg: String) => {
       console.log(msg);
-      console.log("GOT THE MESSAGE AAAA");
-      // send error message and redirect?
-      navigate('/')
-      setLobbyState('Waiting');
-    })
-  })
+      alert(msg);  // Show alert once
+      navigate('/');  // Redirect to the home page
+    };
+
+    // Set up the event listener
+    props.socket.on('joinLobbyError', handleJoinLobbyError);
+
+    // Clean up the event listener on unmount
+    return () => {
+      props.socket.off('joinLobbyError', handleJoinLobbyError);
+    };
+  }, [props.socket, navigate]);
 
   // start chat
   // useEffect(() => {
