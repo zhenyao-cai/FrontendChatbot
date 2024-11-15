@@ -63,6 +63,21 @@ export function LobbySettings(props: LobbySettingsProps) {
           <p className="chatroom-setting-timer-input-box-p">minutes</p>
         </div>
       </div>
+      
+      <div className="chatroom-setting-participants-per-room-container">
+        <p className="chatroom-setting-timer-label">Max Participants Per Room</p>
+        <div className="chatroom-setting-timer-input">
+          <input
+            className="chatroom-setting-timer-input-box"
+            onChange={handleChange}
+            placeholder="4"
+            type="number"
+          />
+          <p className="chatroom-setting-participants-per-room-input-box-p">participants</p>
+        </div>
+      </div>
+      
+      
 
       <div className="chatroom-setting-participants-container">
         <p className="chatroom-setting-participants-label">
