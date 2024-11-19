@@ -6,16 +6,26 @@ interface LobbySettingsProps {
   setChatTime: StateSetter<number>
   setChatName: StateSetter<string>
   setTopic: StateSetter<string>
+  setParticipantsPerRoom: StateSetter<number>
   userCount: number
 }
 
 export function LobbySettings(props: LobbySettingsProps) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(e.target.value);
     if (!isNaN(newValue) && newValue <= 20) {
       props.setChatTime(newValue);
     } else {
       props.setChatTime(10);  // Default time when invalid
+    }
+  }
+
+  const handleParticipantsPerRoomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseFloat(e.target.value);
+    if (!isNaN(newValue) && newValue <= 100) {
+      props.setParticipantsPerRoom(newValue);
+    } else {
+      props.setParticipantsPerRoom(4);  // Default participants per room when invalid
     }
   }
 
@@ -57,7 +67,7 @@ export function LobbySettings(props: LobbySettingsProps) {
         <div className="chatroom-setting-timer-input">
           <input
             className="chatroom-setting-timer-input-box"
-            onChange={handleChange}
+            onChange={handleTimeChange}
             placeholder="10"
           />
           <p className="chatroom-setting-timer-input-box-p">minutes</p>
@@ -69,7 +79,7 @@ export function LobbySettings(props: LobbySettingsProps) {
         <div className="chatroom-setting-timer-input">
           <input
             className="chatroom-setting-timer-input-box"
-            onChange={handleChange}
+            onChange={handleParticipantsPerRoomChange}
             placeholder="4"
             type="number"
           />

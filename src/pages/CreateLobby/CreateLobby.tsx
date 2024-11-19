@@ -22,6 +22,7 @@ export function CreateLobby(props: CreateLobbyProps) {
   const [topic,         setTopic]         = useState('');
   const [chatName,      setChatName]      = useState('Discussion');
   const [userList,     setUserList]     = useState<string[]>([]);
+  const [participantsPerRoom, setParticipantsPerRoom] = useState(4);
 
   const navigate = useNavigate();
 
@@ -61,7 +62,8 @@ export function CreateLobby(props: CreateLobbyProps) {
       chatLength: chatTime,
       assertiveness: assertiveness,
       topic: topic,
-      chatName: chatName
+      chatName: chatName,
+      participantsPerRoom: participantsPerRoom
     }
 
     // send bot settings thru socket
@@ -128,6 +130,7 @@ export function CreateLobby(props: CreateLobbyProps) {
                        setTopic={setTopic}
                        setChatName={setChatName}
                        userCount={userList.length}
+                       setParticipantsPerRoom={setParticipantsPerRoom}
         />
       </div>
     </div>
