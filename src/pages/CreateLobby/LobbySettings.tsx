@@ -8,6 +8,8 @@ interface LobbySettingsProps {
   setTopic: StateSetter<string>
   setParticipantsPerRoom: StateSetter<number>
   userCount: number
+  testMode: boolean
+  setTestMode: StateSetter<boolean>
 }
 
 export function LobbySettings(props: LobbySettingsProps) {
@@ -37,6 +39,10 @@ export function LobbySettings(props: LobbySettingsProps) {
   const handleChatNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     props.setChatName(e.target.value)
+  }
+
+  const handleTestModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    props.setTestMode(e.target.checked);
   }
 
   return (
@@ -87,6 +93,18 @@ export function LobbySettings(props: LobbySettingsProps) {
         </div>
       </div>
       
+      <div className="chatroom-setting-test-mode-container">
+        <p className="chatroom-setting-test-mode-label">Test Mode (Half have chatbot, half do not)</p>
+        <div className="chatroom-setting-test-mode-input">
+          <input
+            className="chatroom-setting-test-mode"
+            onChange={handleTestModeChange}
+            type="checkbox"
+            checked={props.testMode}
+          />
+        </div>
+      </div>
+
       
 
       <div className="chatroom-setting-participants-container">

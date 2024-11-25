@@ -80,7 +80,7 @@ button.top-right-button:hover {
   border-radius: 20px;
   justify-content: center;
   align-items: center;
-  height: 528px;
+  height: 578px;
   width: 721px;
   color: #535353;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -121,18 +121,21 @@ button.top-right-button:hover {
 }
 
 .chatroom-setting-timer-container,
-.chatroom-setting-particpants-per-room-container {
+.chatroom-setting-particpants-per-room-container,
+.chartoom-setting-test-mode-container {
   margin: 20px;
 }
 
 .chatroom-setting-timer-label,
-.chatroom-setting-particpants-per-room-container {
+.chatroom-setting-particpants-per-room-container,
+.chatroom-setting-test-mode-container {
   font-size: 22px;
   padding-bottom: 10px;
 }
 
 .chatroom-setting-timer-input,
-.chatroom-setting-particpants-per-room-input {
+.chatroom-setting-particpants-per-room-input,
+.chatroom-setting-test-mode-input {
   display: flex;
   align-items: center;
 }
@@ -155,11 +158,13 @@ button.top-right-button:hover {
 }
 
 .chatroom-setting-participants-container,
-.chatroom-setting-participants-per-room-container {
+.chatroom-setting-participants-per-room-container,
+.chatroom-setting-test-mode-container {
   margin: 20px;
 }
 
-.chatroom-setting-participants-label {
+.chatroom-setting-participants-label,
+.chartoom-setting-test-mode-label {
   font-size: 22px;
   padding-bottom: 10px;
 }
