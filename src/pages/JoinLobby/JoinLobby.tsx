@@ -14,6 +14,7 @@ export function JoinLobby(props : JoinLobbyProps) {
   const [code,       setCode]       = useState('');
   // const [chatCode,   setChatCode]   = useState('');
   const [lobbyState, setLobbyState] = useState('Waiting');
+  const [guid, setGuid] = useState<string>(''); // Add guid state
 
   const navigate = useNavigate();
 
@@ -139,6 +140,14 @@ export function JoinLobby(props : JoinLobbyProps) {
   //   });
   // }, [code, name, navigate]);
 
+  const handleQuitChatroom = () => {
+    if (guid) {
+      props.socket.emit('leaveLobby', { guid });
+      navigate('/home');
+    } else {
+      console.error('No guid found to leave lobby.');
+    }
+  };
 
   return (
     <div className="screen">
@@ -151,7 +160,7 @@ export function JoinLobby(props : JoinLobbyProps) {
       </div>
 
       <a href="home">
-        <button className="top-right-button">Quit Chatroom</button>
+        <button className="top-right-button" onClick={handleQuitChatroom}></button>
       </a>
 
       {(lobbyState === 'Waiting') &&
