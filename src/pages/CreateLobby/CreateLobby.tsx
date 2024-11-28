@@ -22,12 +22,9 @@ export function CreateLobby(props: CreateLobbyProps) {
   const [topic,         setTopic]         = useState('');
   const [chatName,      setChatName]      = useState('Discussion');
   const [userList,     setUserList]     = useState<string[]>([]);
-<<<<<<< Updated upstream
-=======
   const [participantsPerRoom, setParticipantsPerRoom] = useState(4);
   const [testMode, setTestMode] = useState(false);
   const [botType, setBotType] = useState('gpt_based');
->>>>>>> Stashed changes
 
   const navigate = useNavigate();
 
@@ -67,14 +64,10 @@ export function CreateLobby(props: CreateLobbyProps) {
       chatLength: chatTime,
       assertiveness: assertiveness,
       topic: topic,
-<<<<<<< Updated upstream
-      chatName: chatName
-=======
       chatName: chatName,
       participantsPerRoom: participantsPerRoom,
       testMode: testMode,
       botType: botType
->>>>>>> Stashed changes
     }
     console.log(botType);
 
@@ -142,14 +135,11 @@ export function CreateLobby(props: CreateLobbyProps) {
                        setTopic={setTopic}
                        setChatName={setChatName}
                        userCount={userList.length}
-<<<<<<< Updated upstream
-=======
                        setParticipantsPerRoom={setParticipantsPerRoom}
                        testMode={testMode}
                        botType={botType}
                        setTestMode={setTestMode}
                        setBotType={setBotType}
->>>>>>> Stashed changes
         />
       </div>
     </div>

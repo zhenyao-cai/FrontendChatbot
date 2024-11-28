@@ -7,13 +7,10 @@ interface LobbySettingsProps {
   setChatName: StateSetter<string>
   setTopic: StateSetter<string>
   userCount: number
-<<<<<<< Updated upstream
-=======
   testMode: boolean
   botType: string
   setTestMode: StateSetter<boolean>
   setBotType: StateSetter<string>
->>>>>>> Stashed changes
 }
 
 export function LobbySettings(props: LobbySettingsProps) {
@@ -36,8 +33,6 @@ export function LobbySettings(props: LobbySettingsProps) {
     props.setChatName(e.target.value)
   }
 
-<<<<<<< Updated upstream
-=======
   const handleTestModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.setTestMode(e.target.checked);
   }
@@ -46,7 +41,6 @@ export function LobbySettings(props: LobbySettingsProps) {
     props.setBotType(e.target.value);
   }
 
->>>>>>> Stashed changes
   return (
     <div className="chatroom-setting-container">
       <p className="chatroom-setting-heading">Chatroom Settings</p>
@@ -81,8 +75,6 @@ export function LobbySettings(props: LobbySettingsProps) {
           <p className="chatroom-setting-timer-input-box-p">minutes</p>
         </div>
       </div>
-<<<<<<< Updated upstream
-=======
       
       <div className="chatroom-setting-participants-per-room-container">
         <p className="chatroom-setting-timer-label">Max Participants Per Room</p>
@@ -119,7 +111,6 @@ export function LobbySettings(props: LobbySettingsProps) {
         </div>
       </div>
       
->>>>>>> Stashed changes
 
       <div className="chatroom-setting-participants-container">
         <p className="chatroom-setting-participants-label">
