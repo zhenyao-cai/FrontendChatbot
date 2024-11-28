@@ -80,7 +80,11 @@ button.top-right-button:hover {
   border-radius: 20px;
   justify-content: center;
   align-items: center;
+<<<<<<< Updated upstream
   height: 468px;
+=======
+  height: auto;
+>>>>>>> Stashed changes
   width: 721px;
   color: #535353;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -148,11 +152,55 @@ button.top-right-button:hover {
   margin-left: 10px;
   margin-right: 20px;
 }
+<<<<<<< Updated upstream
 .chatroom-setting-participants-container {
   margin: 20px;
 }
 
 .chatroom-setting-participants-label {
+=======
+
+.chatroom-setting-participants-container,
+.chatroom-setting-participants-per-room-container,
+.chatroom-setting-test-mode-container,
+.chatroom-setting-bot-type-container {
+  margin: 20px;
+}
+
+.chatroom-setting-participants-label,
+.chartoom-setting-test-mode-label,
+.chatroom-setting-bot-type-label {
+>>>>>>> Stashed changes
   font-size: 22px;
   padding-bottom: 10px;
+}
+
+
+.chatroom-setting-bot-type-dropdown-select {
+  appearance: none; /* Remove default browser styling */
+  -webkit-appearance: none; /* Safari compatibility */
+  -moz-appearance: none; /* Firefox compatibility */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 16px;  
+  color: #333;
+  cursor: pointer;
+  width: 150px;
+  text-align: center;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="grey" width="18px" height="18px"><path d="M7 10l5 5 5-5H7z"/></svg>'); /* Downward arrow */
+  background-repeat: no-repeat;
+  background-position: left 5px center; /* Position arrow to the right */
+}
+
+/* Hover and focus effects */
+.chatroom-setting-bot-type-dropdown-select:hover {
+  border-color: #888;
+}
+
+.chatroom-setting-bot-type-dropdown-select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
 }
