@@ -110,6 +110,7 @@ export function JoinLobby(props : JoinLobbyProps) {
   useEffect(() => {
     const handleChatStarted = (lobbyId: string, chatId: string) => {
       console.log("Received chatStarted with lobbyId:", lobbyId, "and chatId:", chatId);
+      // chat id is important. It is the thing displayed
       const encodedName = encodeURIComponent(name);
       const encodedLobbyId = encodeURIComponent(lobbyId);
       const encodedChatId = encodeURIComponent(chatId);
