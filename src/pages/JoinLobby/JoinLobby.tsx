@@ -10,7 +10,7 @@ interface JoinLobbyProps {
 }
 
 export function JoinLobby(props : JoinLobbyProps) {
-  const [name,       setName]       = useState('Guest');
+  const [name,       setName]       = useState('');
   const [code,       setCode]       = useState('');
   // const [chatCode,   setChatCode]   = useState('');
   const [lobbyState, setLobbyState] = useState('Waiting');
@@ -29,6 +29,7 @@ export function JoinLobby(props : JoinLobbyProps) {
     // Set the name synchronously before initializing the boxes
     setName(nameFromURL);
     setCode(lobbyIdFromURL)
+    setGuid(lobbyIdFromURL)
   }, []);
 
 
@@ -142,7 +143,7 @@ export function JoinLobby(props : JoinLobbyProps) {
 
   const handleQuitChatroom = () => {
     if (guid) {
-      props.socket.emit('leaveLobby', { guid });
+      props.socket.emit('leaveLobby', { guid, name });
       navigate('/home');
     } else {
       console.error('No guid found to leave lobby.');
@@ -160,7 +161,7 @@ export function JoinLobby(props : JoinLobbyProps) {
       </div>
 
       <a href="home">
-        <button className="top-right-button" onClick={handleQuitChatroom}></button>
+        <button className="top-right-button" onClick={handleQuitChatroom}>Quit Chatroom</button>
       </a>
 
       {(lobbyState === 'Waiting') &&
