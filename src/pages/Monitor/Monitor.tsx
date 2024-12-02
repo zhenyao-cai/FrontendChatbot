@@ -16,6 +16,13 @@ export function Monitor(props: JoinLobbyProps) {
   const [numStudent, setNumStudent] = useState(0);
 
 
+    useEffect(() => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const lobbyIdFromURL = searchParams.get('lobbyId') || ''
+
+      setCode(lobbyIdFromURL)
+    }, []);
+
   // Initialize the state with x boxes when the component is mounted
   // useEffect(() => {
   //   // Retrieve the name parameter from the URL
@@ -42,14 +49,15 @@ export function Monitor(props: JoinLobbyProps) {
   //   });
   // },[]);
 
-  // DEMO CODE, only one active lobby for the demo
-  useEffect(() => {
-    props.socket.emit('getLobbyCode');
-    props.socket.on('getLobbyCodeResponse', setCode);
-    return () => {
-      props.socket.off('getLobbyCodeResponse');
-    };
-  }, [props.socket]);
+  // // DEMO CODE, only one active lobby for the demo
+  // useEffect(() => {
+  //   props.socket.emit('getLobbyCode', code);
+  //   // props.socket.on('getLobbyCodeResponse', setCode);
+  //   console.log("Monitor:", code);
+  //   return () => {
+  //     props.socket.off('getLobbyCodeResponse');
+  //   };
+  // }, [props.socket, lastFour, code]);
 
 
   // NOT needed?
