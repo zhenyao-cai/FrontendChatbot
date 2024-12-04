@@ -10,10 +10,11 @@ interface JoinLobbyProps {
 }
 
 export function JoinLobby(props : JoinLobbyProps) {
-  const [name,       setName]       = useState('Guest');
+  const [name,       setName]       = useState('');
   const [code,       setCode]       = useState('');
   // const [chatCode,   setChatCode]   = useState('');
   const [lobbyState, setLobbyState] = useState('Waiting');
+  const [guid, setGuid] = useState<string>(''); // Add guid state
 
   const navigate = useNavigate();
 
@@ -22,10 +23,13 @@ export function JoinLobby(props : JoinLobbyProps) {
     // Retrieve the name parameter from the URL
     const searchParams = new URLSearchParams(window.location.search);
     const nameFromURL = searchParams.get('name') || 'Guest';
+    const lobbyIdFromURL = searchParams.get('lobbyid') || ''
 
     // const formattedName = nameFromURL.replace(/\b\w/g, match => match.toUpperCase());
     // Set the name synchronously before initializing the boxes
     setName(nameFromURL);
+    setCode(lobbyIdFromURL)
+    setGuid(lobbyIdFromURL)
   }, []);
 
 
@@ -44,12 +48,11 @@ export function JoinLobby(props : JoinLobbyProps) {
 
 
   // Wait for getLobbyCodeResponse event, then try to join lobby
-  useEffect(() => {
-    props.socket.on('getLobbyCodeResponse', (guid) => {
-      console.log("getLobbyCodeResponse: ", guid);
-      setCode(guid);
-    });
-  }, [props.socket]);
+  // useEffect(() => {
+  //   props.socket.on('getLobbyCodeResponse', (guid) => {
+  //     console.log("getLobbyCodeResponse: ", guid);
+  //   });
+  // }, [props.socket]);
 
 
   // Emit joinLobby if name and code are valid.
@@ -69,6 +72,22 @@ export function JoinLobby(props : JoinLobbyProps) {
       setLobbyState('Joined');
     });
   }, [props.socket]);
+
+  useEffect(() => {
+    const handleJoinLobbyError = (msg: String) => {
+      console.log(msg);
+      alert(msg);  // Show alert once
+      navigate('/');  // Redirect to the home page
+    };
+
+    // Set up the event listener
+    props.socket.on('joinLobbyError', handleJoinLobbyError);
+
+    // Clean up the event listener on unmount
+    return () => {
+      props.socket.off('joinLobbyError', handleJoinLobbyError);
+    };
+  }, [props.socket, navigate]);
 
   // start chat
   // useEffect(() => {
@@ -93,6 +112,7 @@ export function JoinLobby(props : JoinLobbyProps) {
   useEffect(() => {
     const handleChatStarted = (lobbyId: string, chatId: string) => {
       console.log("Received chatStarted with lobbyId:", lobbyId, "and chatId:", chatId);
+      // chat id is important. It is the thing displayed
       const encodedName = encodeURIComponent(name);
       const encodedLobbyId = encodeURIComponent(lobbyId);
       const encodedChatId = encodeURIComponent(chatId);
@@ -121,6 +141,14 @@ export function JoinLobby(props : JoinLobbyProps) {
   //   });
   // }, [code, name, navigate]);
 
+  const handleQuitChatroom = () => {
+    if (guid) {
+      props.socket.emit('leaveLobby', { guid, name });
+      navigate('/home');
+    } else {
+      console.error('No guid found to leave lobby.');
+    }
+  };
 
   return (
     <div className="screen">
@@ -133,7 +161,7 @@ export function JoinLobby(props : JoinLobbyProps) {
       </div>
 
       <a href="home">
-        <button className="top-right-button">Quit Chatroom</button>
+        <button className="top-right-button" onClick={handleQuitChatroom}>Quit Chatroom</button>
       </a>
 
       {(lobbyState === 'Waiting') &&
