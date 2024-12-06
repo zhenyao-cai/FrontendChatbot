@@ -115,8 +115,8 @@ export function LobbySettings(props: LobbySettingsProps) {
         <p className="chatroom-setting-bot-type-label">Chatbot Options</p>
         <div className="chatroom-setting-test-mode-input">
           <select id="dropdown" className="chatroom-setting-bot-type-dropdown-select" value={props.botType} onChange={handleBotTypeChange}>
-            <option value="gpt-based">GPT-based</option>
-            <option value="rules-based">Rules-based</option>
+            <option value="gpt_based">GPT-based</option>
+            <option value="rules_based">Rules-based</option>
           </select>
         </div>
       </div>
